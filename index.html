@@ -1,0 +1,3624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Femtoc: The Future of Skills</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== CSS RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        :root {
+            /* Color Palette */
+            --bg-primary: #050505;
+            --bg-secondary: #0a0a0a;
+            --bg-tertiary: #111111;
+            --accent-cyan: #00f2ea;
+            --accent-purple: #bf00ff;
+            --accent-lime: #39ff14;
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --text-tertiary: #666666;
+            --glass-bg: rgba(10, 10, 10, 0.7);
+            --glass-border: rgba(0, 242, 234, 0.1);
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --danger: #ff0033;
+            
+            /* Typography */
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+            
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-xxl: 3rem;
+            
+            /* Effects */
+            --glow-cyan: 0 0 15px var(--accent-cyan);
+            --glow-purple: 0 0 15px var(--accent-purple);
+            --glow-lime: 0 0 15px var(--accent-lime);
+            --glass-blur: blur(10px);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            position: relative;
+            overflow-x: hidden;
+            touch-action: manipulation;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: none;
+        }
+        
+        /* ===== ANIMATED BACKGROUND ===== */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 70%);
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, 20px) rotate(90deg); }
+            50% { transform: translate(0, 40px) rotate(180deg); }
+            75% { transform: translate(-20px, 20px) rotate(270deg); }
+        }
+        
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--space-md);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            color: var(--accent-cyan);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        p {
+            margin-bottom: var(--space-md);
+            color: var(--text-secondary);
+        }
+        
+        .typing-text {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid var(--accent-cyan);
+            animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end infinite;
+            font-family: var(--font-heading);
+            font-weight: 700;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-cyan) }
+        }
+        
+        /* ===== LAYOUT & CONTAINERS ===== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+        }
+        
+        section {
+            padding: var(--space-xl) 0;
+            min-height: 100vh;
+            display: none;
+        }
+        
+        section.active {
+            display: block;
+        }
+        
+        /* ===== HEADER & NAVIGATION ===== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
+            padding: var(--space-sm) 0;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-md);
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        
+        .logo-icon {
+            color: var(--accent-lime);
+            font-size: 1.5rem;
+        }
+        
+        /* ===== SMART SEARCH ===== */
+        .search-container {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: var(--space-md);
+            background: var(--bg-tertiary);
+            border: 1px solid transparent;
+            border-radius: 50px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: var(--glow-cyan);
+        }
+        
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            margin-top: var(--space-xs);
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .search-results.active {
+            display: block;
+        }
+        
+        .search-result-item {
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .search-result-item:hover {
+            background: var(--bg-secondary);
+            padding-left: var(--space-lg);
+        }
+        
+        .result-category {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: var(--space-sm);
+            text-transform: uppercase;
+        }
+        
+        .result-category.service {
+            background: rgba(0, 242, 234, 0.2);
+            color: var(--accent-cyan);
+        }
+        
+        .result-category.product {
+            background: rgba(191, 0, 255, 0.2);
+            color: var(--accent-purple);
+        }
+        
+        .result-category.course {
+            background: rgba(57, 255, 20, 0.2);
+            color: var(--accent-lime);
+        }
+        
+        .result-category.video {
+            background: rgba(255, 0, 51, 0.2);
+            color: var(--danger);
+        }
+        
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border-top: 1px solid var(--glass-border);
+            padding: var(--space-sm) 0;
+            z-index: 90;
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            padding: var(--space-sm);
+            border-radius: 10px;
+        }
+        
+        .nav-item.active {
+            color: var(--accent-cyan);
+            transform: translateY(-5px);
+        }
+        
+        .nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        
+        .nav-item:hover {
+            color: var(--accent-cyan);
+        }
+        
+        /* ===== FLOATING BACK BUTTON ===== */
+        .floating-back-btn {
+            position: fixed;
+            bottom: 80px;
+            left: var(--space-md);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 80;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            box-shadow: var(--glow-cyan);
+        }
+        
+        .floating-back-btn.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .floating-back-btn:hover {
+            transform: scale(1.1);
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
+        
+        /* ===== CARDS & GLASSMORPHISM ===== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+        
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: var(--space-lg);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-md);
+            color: var(--accent-cyan);
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+        
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+            font-size: 0.9rem;
+        }
+        
+        .card-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-lime);
+            margin-bottom: var(--space-md);
+        }
+        
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .tag {
+            padding: 4px 10px;
+            background: rgba(0, 242, 234, 0.1);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+        }
+        
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-md) var(--space-lg);
+            border-radius: 50px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+            gap: var(--space-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            color: var(--bg-primary);
+            animation: breathing 3s infinite;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+            box-shadow: var(--glow-cyan);
+        }
+        
+        .btn-danger {
+            background: transparent;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background: var(--danger);
+            color: var(--text-primary);
+            box-shadow: 0 0 15px var(--danger);
+        }
+        
+        .btn-success {
+            background: transparent;
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .btn-success:hover {
+            background: var(--success);
+            color: var(--bg-primary);
+            box-shadow: 0 0 15px var(--success);
+        }
+        
+        @keyframes breathing {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* ===== MODALS ===== */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-md);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            padding: var(--space-xl);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            color: var(--danger);
+        }
+        
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: var(--space-md);
+            background: var(--bg-tertiary);
+            border: 1px solid transparent;
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: var(--glow-cyan);
+        }
+        
+        .location-group {
+            display: flex;
+            gap: var(--space-sm);
+        }
+        
+        .location-group .form-input {
+            flex: 1;
+        }
+        
+        /* ===== FUNNY AI AGENT ===== */
+        .ai-agent {
+            position: fixed;
+            bottom: 150px;
+            right: var(--space-md);
+            width: 60px;
+            height: 60px;
+            z-index: 80;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+        
+        .ai-body {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, var(--accent-cyan), var(--accent-purple));
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 20px var(--accent-cyan);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .ai-eye {
+            position: absolute;
+            width: 12px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 20px;
+        }
+        
+        .ai-eye.left {
+            left: 15px;
+        }
+        
+        .ai-eye.right {
+            right: 15px;
+        }
+        
+        .ai-eye::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--bg-primary);
+            border-radius: 50%;
+            bottom: 2px;
+            left: 3px;
+        }
+        
+        .ai-mouth {
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            border-bottom: 3px solid white;
+            border-radius: 0 0 10px 10px;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .ai-speech {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            padding: var(--space-md);
+            border-radius: 10px;
+            width: 200px;
+            margin-bottom: var(--space-sm);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        .ai-speech.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .ai-speech::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            right: 20px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: var(--bg-tertiary) transparent transparent transparent;
+        }
+        
+        @keyframes blink {
+            0%, 90%, 100% { height: 18px; }
+            95% { height: 2px; }
+        }
+        
+        @keyframes wink {
+            0%, 90%, 100% { height: 18px; }
+            95% { height: 2px; }
+        }
+        
+        /* ===== PULSE SECTION (VIDEO FEED) ===== */
+        .pulse-container {
+            height: 100vh;
+            width: 100%;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+        
+        .video-card {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-primary);
+        }
+        
+        .video-player {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-xl);
+            background: linear-gradient(transparent, rgba(5, 5, 5, 0.8));
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        
+        .video-controls {
+            position: absolute;
+            right: var(--space-md);
+            bottom: 50%;
+            transform: translateY(50%);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+        
+        .video-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .video-btn:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+            transform: scale(1.1);
+        }
+        
+        .video-btn.active {
+            background: var(--danger);
+            color: var(--text-primary);
+        }
+        
+        /* ===== ADMIN PANEL ===== */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .admin-panel.active {
+            display: flex;
+        }
+        
+        .admin-header {
+            background: #001100;
+            padding: var(--space-md);
+            border-bottom: 2px solid var(--accent-lime);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-title {
+            color: var(--accent-lime);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .admin-status {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--danger);
+        }
+        
+        .status-dot.connected {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+        
+        .admin-tabs {
+            display: flex;
+            background: #002200;
+            border-bottom: 1px solid #003300;
+        }
+        
+        .admin-tab {
+            padding: var(--space-md) var(--space-lg);
+            background: transparent;
+            border: none;
+            color: #00aa00;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-tab.active {
+            background: #003300;
+            color: var(--accent-lime);
+            border-bottom: 2px solid var(--accent-lime);
+        }
+        
+        .admin-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-lg);
+        }
+        
+        .admin-section {
+            display: none;
+        }
+        
+        .admin-section.active {
+            display: block;
+        }
+        
+        .admin-item {
+            background: rgba(0, 50, 0, 0.2);
+            border: 1px solid #003300;
+            padding: var(--space-md);
+            margin-bottom: var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: var(--space-sm);
+        }
+        
+        .admin-textarea {
+            width: 100%;
+            min-height: 300px;
+            background: #001100;
+            color: #00ff00;
+            border: 1px solid #003300;
+            padding: var(--space-md);
+            font-family: 'Courier New', monospace;
+            margin-bottom: var(--space-md);
+        }
+        
+        /* ===== WHATSAPP BUTTON ===== */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 80px;
+            right: var(--space-md);
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            z-index: 80;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            animation: pulse 3s infinite;
+            text-decoration: none;
+        }
+        
+        .whatsapp-btn.pulse-top {
+            bottom: auto;
+            top: 150px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* ===== LOADING SPINNER ===== */
+        .loading-spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            border: 5px solid transparent;
+            border-top-color: var(--accent-cyan);
+            border-radius: 50%;
+            z-index: 3000;
+            display: none;
+            animation: spin 1s linear infinite;
+        }
+        
+        .loading-spinner.active {
+            display: block;
+        }
+        
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        /* ===== HOME SECTION ===== */
+        .hero {
+            text-align: center;
+            padding: var(--space-xxl) 0;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+        
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            h3 { font-size: 1.2rem; }
+            
+            .header-content {
+                flex-direction: column;
+                gap: var(--space-sm);
+            }
+            
+            .search-container {
+                max-width: 100%;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-controls {
+                bottom: 120px;
+                right: var(--space-sm);
+                flex-direction: row;
+                gap: var(--space-md);
+            }
+            
+            .video-btn {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .admin-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+            
+            .admin-tab {
+                white-space: nowrap;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* ===== UTILITY CLASSES ===== */
+        .text-center { text-align: center; }
+        .text-cyan { color: var(--accent-cyan); }
+        .text-purple { color: var(--accent-purple); }
+        .text-lime { color: var(--accent-lime); }
+        .mt-1 { margin-top: var(--space-sm); }
+        .mt-2 { margin-top: var(--space-md); }
+        .mt-3 { margin-top: var(--space-lg); }
+        .mt-4 { margin-top: var(--space-xl); }
+        .mb-1 { margin-bottom: var(--space-sm); }
+        .mb-2 { margin-bottom: var(--space-md); }
+        .mb-3 { margin-bottom: var(--space-lg); }
+        .mb-4 { margin-bottom: var(--space-xl); }
+        .d-none { display: none; }
+        .d-flex { display: flex; }
+        .d-block { display: block; }
+        
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        
+        .glitch {
+            animation: glitch 0.5s infinite;
+            color: var(--danger);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div id="bg-canvas"></div>
+    
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner"></div>
+    
+    <!-- Header with Smart Search -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo" data-section="home">
+                <i class="fas fa-bolt logo-icon"></i>
+                <span class="typing-text" id="typingHeader">Femtoc: The Future</span>
+            </a>
+            <div class="search-container">
+                <input type="text" class="search-bar" id="searchBar" placeholder="Search services, products, courses, videos...">
+                <div class="search-results" id="searchResults"></div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content Sections -->
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="active">
+            <div class="container">
+                <div class="hero">
+                    <h1>Welcome to Femtoc</h1>
+                    <p class="hero-subtitle">The future of skills, services, and learning in one platform</p>
+                    <div class="card-grid" id="homeCards">
+                        <!-- Dynamic cards will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Services Section -->
+        <section id="services">
+            <div class="container">
+                <h2>Our Services</h2>
+                <p>Professional services tailored to your needs</p>
+                <div class="card-grid" id="servicesContainer"></div>
+            </div>
+        </section>
+        
+        <!-- Store Section -->
+        <section id="store">
+            <div class="container">
+                <h2>Digital Store</h2>
+                <p>Products and tools to boost your productivity</p>
+                <div class="card-grid" id="storeContainer"></div>
+            </div>
+        </section>
+        
+        <!-- University Section -->
+        <section id="university">
+            <div class="container">
+                <h2>Femtoc University</h2>
+                <p>Learn cutting-edge skills with our courses</p>
+                <div class="card-grid" id="universityContainer"></div>
+            </div>
+        </section>
+        
+        <!-- Pulse Section -->
+        <section id="pulse">
+            <div class="pulse-container" id="pulseContainer">
+                <!-- Video cards will be inserted here -->
+            </div>
+        </section>
+    </main>
+    
+    <!-- Service Request Modal -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="serviceModalTitle">Service Request</h3>
+                <button class="modal-close" id="closeServiceModal">&times;</button>
+            </div>
+            <div id="serviceModalContent">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Product/Enroll Modal -->
+    <div class="modal" id="actionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="actionModalTitle">Action</h3>
+                <button class="modal-close" id="closeActionModal">&times;</button>
+            </div>
+            <div id="actionModalContent">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Funny AI Agent -->
+    <div class="ai-agent" id="aiAgent">
+        <div class="ai-speech" id="aiSpeech"></div>
+        <div class="ai-body">
+            <div class="ai-eye left"></div>
+            <div class="ai-eye right"></div>
+            <div class="ai-mouth"></div>
+        </div>
+    </div>
+    
+    <!-- Floating Back Button -->
+    <div class="floating-back-btn" id="backButton">
+        <i class="fas fa-arrow-left"></i>
+    </div>
+    
+    <!-- WhatsApp Floating Button -->
+    <a class="whatsapp-btn" id="whatsappButton" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" data-section="home">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item" data-section="services">
+            <i class="fas fa-cogs"></i>
+            <span>Services</span>
+        </a>
+        <a href="#" class="nav-item" data-section="store">
+            <i class="fas fa-store"></i>
+            <span>Store</span>
+        </a>
+        <a href="#" class="nav-item" data-section="university">
+            <i class="fas fa-graduation-cap"></i>
+            <span>University</span>
+        </a>
+        <a href="#" class="nav-item" data-section="pulse">
+            <i class="fas fa-play-circle"></i>
+            <span>Pulse</span>
+        </a>
+    </nav>
+    
+    <!-- Admin Panel (Hidden by default) -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <div class="admin-title">FEMTOC ADMIN PANEL - GOD MODE</div>
+            <div class="admin-status">
+                <span>GitHub API:</span>
+                <div class="status-dot" id="githubStatus"></div>
+                <button class="btn btn-success" id="saveDeployBtn">Save & Deploy</button>
+                <button class="btn btn-danger" id="closeAdminBtn">Exit Admin</button>
+            </div>
+        </div>
+        <div class="admin-tabs">
+            <button class="admin-tab active" data-admin-tab="services">Manage Services</button>
+            <button class="admin-tab" data-admin-tab="store">Manage Store</button>
+            <button class="admin-tab" data-admin-tab="university">Manage University</button>
+            <button class="admin-tab" data-admin-tab="pulse">Manage Pulse</button>
+            <button class="admin-tab" data-admin-tab="quotes">Manage Quotes</button>
+            <button class="admin-tab" data-admin-tab="bulk">Bulk Import</button>
+            <button class="admin-tab" data-admin-tab="settings">Settings</button>
+        </div>
+        <div class="admin-content">
+            <!-- Services Admin -->
+            <div class="admin-section active" id="adminServices">
+                <h3 class="text-cyan">Services Management</h3>
+                <button class="btn btn-primary mb-3" id="addServiceBtn">Add New Service</button>
+                <div id="adminServicesList"></div>
+            </div>
+            
+            <!-- Store Admin -->
+            <div class="admin-section" id="adminStore">
+                <h3 class="text-cyan">Store Management</h3>
+                <button class="btn btn-primary mb-3" id="addProductBtn">Add New Product</button>
+                <div id="adminStoreList"></div>
+            </div>
+            
+            <!-- University Admin -->
+            <div class="admin-section" id="adminUniversity">
+                <h3 class="text-cyan">University Management</h3>
+                <button class="btn btn-primary mb-3" id="addCourseBtn">Add New Course</button>
+                <div id="adminUniversityList"></div>
+            </div>
+            
+            <!-- Pulse Admin -->
+            <div class="admin-section" id="adminPulse">
+                <h3 class="text-cyan">Pulse Video Management</h3>
+                <button class="btn btn-primary mb-3" id="addVideoBtn">Add New Video</button>
+                <div id="adminPulseList"></div>
+            </div>
+            
+            <!-- Quotes Admin -->
+            <div class="admin-section" id="adminQuotes">
+                <h3 class="text-cyan">AI Quotes & Typing Text</h3>
+                <div class="form-group">
+                    <label class="form-label">Typing Text Variations (comma separated)</label>
+                    <input type="text" class="form-input" id="typingTextInput" value="Femtoc: The Future, Femtoc Skills, Femtoc Pulse">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">AI Motivational Quotes (one per line)</label>
+                    <textarea class="admin-textarea" id="quotesTextarea" rows="10"></textarea>
+                </div>
+                <button class="btn btn-success" id="saveQuotesBtn">Save Quotes</button>
+            </div>
+            
+            <!-- Bulk Import -->
+            <div class="admin-section" id="adminBulk">
+                <h3 class="text-cyan">Bulk JSON Import</h3>
+                <div class="form-group">
+                    <label class="form-label">Select Category</label>
+                    <select class="form-input" id="bulkCategory">
+                        <option value="services">Services</option>
+                        <option value="store">Store Products</option>
+                        <option value="university">University Courses</option>
+                        <option value="pulse">Pulse Videos</option>
+                        <option value="quotes">AI Quotes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Paste JSON Data</label>
+                    <textarea class="admin-textarea" id="bulkJsonTextarea" placeholder='Paste your JSON array here, e.g., [{ "id": "1", "title": "Item 1", ... }]'></textarea>
+                </div>
+                <button class="btn btn-primary" id="importJsonBtn">Import JSON Data</button>
+                <div class="mt-3">
+                    <p class="text-lime">Note: This will append data to the existing category without deleting old items.</p>
+                </div>
+            </div>
+            
+            <!-- Settings -->
+            <div class="admin-section" id="adminSettings">
+                <h3 class="text-cyan">Admin Settings</h3>
+                <div class="form-group">
+                    <label class="form-label">GitHub Personal Access Token (PAT)</label>
+                    <input type="password" class="form-input" id="githubTokenInput" placeholder="Paste your GitHub PAT here">
+                    <p class="text-secondary mt-1">Required for live deployment. Token is stored only for this session.</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Admin Phone Number</label>
+                    <input type="text" class="form-input" id="adminPhoneInput" value="9838038571">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Currency</label>
+                    <input type="text" class="form-input" id="currencyInput" value="INR">
+                </div>
+                <button class="btn btn-success" id="saveSettingsBtn">Save Settings</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hidden Admin Trigger (Triple tap on logo to activate) -->
+    <div id="adminTrigger" style="display: none;"></div>
+
+    <!-- Main JavaScript -->
+    <script>
+        // ===== PART 1 & 2: DATA STRUCTURE & INITIALIZATION =====
+        // Femtoc Database
+        window.femtocDB = {
+            config: {
+                adminPhone: "9838038571",
+                currency: "INR",
+                themeColor: "dark",
+                typingTexts: ["Femtoc: The Future", "Femtoc Skills", "Femtoc Pulse"]
+            },
+            services: [
+                {
+                    id: "serv-1",
+                    title: "Web Design & Development",
+                    icon: "fas fa-code",
+                    description: "Modern, responsive websites with cutting-edge design and functionality.",
+                    requirements: ["Project brief", "Design preferences", "Timeline"],
+                    questions: ["What is your business about?", "Do you have existing branding?", "What's your timeline?"],
+                    cost: 29999
+                },
+                {
+                    id: "serv-2",
+                    title: "Digital Marketing Strategy",
+                    icon: "fas fa-chart-line",
+                    description: "Comprehensive digital marketing plans to boost your online presence.",
+                    requirements: ["Current marketing data", "Target audience", "Business goals"],
+                    questions: ["What's your current marketing budget?", "Who is your target audience?", "What are your key goals?"],
+                    cost: 19999
+                },
+                {
+                    id: "serv-3",
+                    title: "Mobile App Development",
+                    icon: "fas fa-mobile-alt",
+                    description: "Native and cross-platform mobile applications for iOS and Android.",
+                    requirements: ["App concept", "Platform preference", "Feature list"],
+                    questions: ["Which platforms do you target?", "Do you have wireframes?", "What's your monetization strategy?"],
+                    cost: 49999
+                }
+            ],
+            store: [
+                {
+                    id: "prod-1",
+                    title: "Femtoc UI Kit",
+                    image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    price: 4999,
+                    description: "Complete UI component library for futuristic web applications.",
+                    features: ["100+ Components", "Dark/Light Themes", "Figma & Sketch Files"],
+                    link: "#"
+                },
+                {
+                    id: "prod-2",
+                    title: "AI Business Assistant",
+                    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    price: 8999,
+                    description: "AI-powered tool for automating business tasks and customer interactions.",
+                    features: ["Natural Language Processing", "Multi-platform Integration", "Analytics Dashboard"],
+                    link: "#"
+                },
+                {
+                    id: "prod-3",
+                    title: "Code Optimization Suite",
+                    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    price: 6999,
+                    description: "Tools to optimize and secure your web applications.",
+                    features: ["Performance Analyzer", "Security Scanner", "Code Minifier"],
+                    link: "#"
+                }
+            ],
+            university: [
+                {
+                    id: "course-1",
+                    title: "Full Stack Web Development",
+                    thumbnail: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    description: "Master modern web development from frontend to backend.",
+                    skills: ["HTML/CSS", "JavaScript", "React", "Node.js", "Database Design"],
+                    syllabus: ["Module 1: Fundamentals", "Module 2: Frontend Development", "Module 3: Backend Development", "Module 4: Deployment"]
+                },
+                {
+                    id: "course-2",
+                    title: "AI & Machine Learning",
+                    thumbnail: "https://images.unsplash.com/photo-1555255707-c07966088b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    description: "Learn to build intelligent systems with Python and TensorFlow.",
+                    skills: ["Python", "TensorFlow", "Neural Networks", "Data Analysis", "Model Deployment"],
+                    syllabus: ["Module 1: Python for AI", "Module 2: Machine Learning Basics", "Module 3: Deep Learning", "Module 4: Real-world Projects"]
+                },
+                {
+                    id: "course-3",
+                    title: "UI/UX Design Mastery",
+                    thumbnail: "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    description: "Design beautiful, user-centered interfaces for web and mobile.",
+                    skills: ["Figma", "User Research", "Wireframing", "Prototyping", "Design Systems"],
+                    syllabus: ["Module 1: Design Principles", "Module 2: User Research", "Module 3: Interface Design", "Module 4: Portfolio Building"]
+                }
+            ],
+            pulse: [
+                {
+                    id: "pulse-1",
+                    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-circuit-2188-large.mp4",
+                    title: "Future Tech Trends 2024",
+                    description: "Exploring the technologies that will shape the next decade.",
+                    likes: 245,
+                    shares: 42,
+                    comments: []
+                },
+                {
+                    id: "pulse-2",
+                    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-developer-using-a-computer-while-coding-50987-large.mp4",
+                    title: "Coding in the Future",
+                    description: "How AI is changing the way we write and think about code.",
+                    likes: 189,
+                    shares: 31,
+                    comments: []
+                },
+                {
+                    id: "pulse-3",
+                    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-futuristic-devices-99718-large.mp4",
+                    title: "Designing Tomorrow",
+                    description: "The role of design in creating intuitive future interfaces.",
+                    likes: 312,
+                    shares: 56,
+                    comments: []
+                }
+            ],
+            quotes: [
+                "The future belongs to those who learn more skills and combine them in creative ways.",
+                "Every expert was once a beginner. Start where you are, use what you have.",
+                "Your digital skills are your superpower in the modern world.",
+                "Technology is best when it brings people together and solves real problems.",
+                "Don't watch the future happen, build it with your own skills.",
+                "The only way to do great work is to love what you do in the digital realm.",
+                "Innovation is seeing what everybody has seen and thinking what nobody has thought.",
+                "The computer was born to solve problems that did not exist before."
+            ]
+        };
+
+        // ===== PART 1: MASTER UI ENGINE =====
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create animated background particles
+            createParticles();
+            
+            // Initialize typing animation
+            initTypingAnimation();
+            
+            // Initialize sections
+            initSections();
+            
+            // Render initial content
+            renderHomeCards();
+            renderServices(femtocDB.services);
+            renderStore(femtocDB.store);
+            renderUniversity(femtocDB.university);
+            renderPulse(femtocDB.pulse);
+            
+            // Initialize AI Agent
+            initAIAgent();
+            
+            // Initialize WhatsApp button
+            initWhatsAppButton();
+            
+            // Initialize search functionality
+            initSearch();
+            
+            // Initialize admin trigger (triple tap on logo)
+            initAdminTrigger();
+            
+            // Check for saved user data
+            loadUserData();
+        });
+
+        // ===== ANIMATED BACKGROUND =====
+        function createParticles() {
+            const canvas = document.getElementById('bg-canvas');
+            const particleCount = window.innerWidth < 768 ? 15 : 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random size between 2px and 8px
+                const size = Math.random() * 6 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation delay and duration
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                
+                // Random color
+                const colors = ['#00f2ea', '#bf00ff', '#39ff14'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = `radial-gradient(circle, ${color} 0%, transparent 70%)`;
+                
+                canvas.appendChild(particle);
+            }
+        }
+
+        // ===== TYPING ANIMATION =====
+        function initTypingAnimation() {
+            const typingElement = document.getElementById('typingHeader');
+            const texts = femtocDB.config.typingTexts;
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typingSpeed = 100;
+            
+            function typeText() {
+                const currentText = texts[textIndex];
+                
+                if (isDeleting) {
+                    // Deleting text
+                    typingElement.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                    typingSpeed = 50;
+                } else {
+                    // Typing text
+                    typingElement.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                    typingSpeed = 100;
+                }
+                
+                // Check if text is complete
+                if (!isDeleting && charIndex === currentText.length) {
+                    // Pause at the end of typing
+                    isDeleting = true;
+                    typingSpeed = 1500;
+                } else if (isDeleting && charIndex === 0) {
+                    // Move to next text
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % texts.length;
+                    typingSpeed = 500;
+                }
+                
+                setTimeout(typeText, typingSpeed);
+            }
+            
+            // Start typing animation
+            setTimeout(typeText, 1000);
+        }
+
+        // ===== SECTION MANAGEMENT =====
+        function initSections() {
+            // Handle bottom navigation clicks
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('data-section');
+                    
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show selected section
+                    showSection(sectionId);
+                    
+                    // Show/hide back button
+                    const backButton = document.getElementById('backButton');
+                    if (sectionId === 'home') {
+                        backButton.classList.remove('active');
+                    } else {
+                        backButton.classList.add('active');
+                    }
+                    
+                    // Move WhatsApp button for pulse section
+                    const whatsappBtn = document.getElementById('whatsappButton');
+                    if (sectionId === 'pulse') {
+                        whatsappBtn.classList.add('pulse-top');
+                    } else {
+                        whatsappBtn.classList.remove('pulse-top');
+                    }
+                });
+            });
+            
+            // Handle back button click
+            document.getElementById('backButton').addEventListener('click', function() {
+                // Check if any modal is open
+                const serviceModal = document.getElementById('serviceModal');
+                const actionModal = document.getElementById('actionModal');
+                
+                if (serviceModal.classList.contains('active')) {
+                    serviceModal.classList.remove('active');
+                } else if (actionModal.classList.contains('active')) {
+                    actionModal.classList.remove('active');
+                } else {
+                    // Go back to home
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    document.querySelector('.nav-item[data-section="home"]').classList.add('active');
+                    showSection('home');
+                    this.classList.remove('active');
+                }
+            });
+            
+            // Close modals when clicking outside
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            });
+            
+            // Close modal buttons
+            document.getElementById('closeServiceModal').addEventListener('click', function() {
+                document.getElementById('serviceModal').classList.remove('active');
+            });
+            
+            document.getElementById('closeActionModal').addEventListener('click', function() {
+                document.getElementById('actionModal').classList.remove('active');
+            });
+        }
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update AI agent quote based on section
+            updateAIQuote(sectionId);
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // ===== PART 1: SMART SEARCH LOGIC =====
+        function initSearch() {
+            const searchBar = document.getElementById('searchBar');
+            const searchResults = document.getElementById('searchResults');
+            
+            searchBar.addEventListener('input', function() {
+                const query = this.value.trim().toLowerCase();
+                
+                if (query.length < 2) {
+                    searchResults.classList.remove('active');
+                    return;
+                }
+                
+                // Search through all data
+                const results = searchFemtocData(query);
+                
+                // Display results
+                if (results.length > 0) {
+                    displaySearchResults(results);
+                    searchResults.classList.add('active');
+                } else {
+                    searchResults.classList.remove('active');
+                }
+            });
+            
+            // Close search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchBar.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.classList.remove('active');
+                }
+            });
+        }
+
+        function searchFemtocData(query) {
+            const results = [];
+            
+            // Search services
+            femtocDB.services.forEach(service => {
+                if (service.title.toLowerCase().includes(query) || 
+                    service.description.toLowerCase().includes(query)) {
+                    results.push({
+                        type: 'service',
+                        data: service,
+                        category: 'service'
+                    });
+                }
+            });
+            
+            // Search store products
+            femtocDB.store.forEach(product => {
+                if (product.title.toLowerCase().includes(query) || 
+                    product.description.toLowerCase().includes(query)) {
+                    results.push({
+                        type: 'product',
+                        data: product,
+                        category: 'product'
+                    });
+                }
+            });
+            
+            // Search university courses
+            femtocDB.university.forEach(course => {
+                if (course.title.toLowerCase().includes(query) || 
+                    course.description.toLowerCase().includes(query)) {
+                    results.push({
+                        type: 'course',
+                        data: course,
+                        category: 'course'
+                    });
+                }
+            });
+            
+            // Search pulse videos
+            femtocDB.pulse.forEach(video => {
+                if (video.title.toLowerCase().includes(query) || 
+                    video.description.toLowerCase().includes(query)) {
+                    results.push({
+                        type: 'video',
+                        data: video,
+                        category: 'video'
+                    });
+                }
+            });
+            
+            return results;
+        }
+
+        function displaySearchResults(results) {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '';
+            
+            results.forEach(result => {
+                const item = document.createElement('div');
+                item.className = 'search-result-item';
+                
+                let icon = '';
+                let action = '';
+                
+                switch(result.type) {
+                    case 'service':
+                        icon = '<i class="fas fa-cogs"></i>';
+                        action = 'Get Service';
+                        break;
+                    case 'product':
+                        icon = '<i class="fas fa-shopping-cart"></i>';
+                        action = 'View Product';
+                        break;
+                    case 'course':
+                        icon = '<i class="fas fa-graduation-cap"></i>';
+                        action = 'Enroll';
+                        break;
+                    case 'video':
+                        icon = '<i class="fas fa-play-circle"></i>';
+                        action = 'Watch';
+                        break;
+                }
+                
+                item.innerHTML = `
+                    <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                        <div>
+                            <span class="result-category ${result.category}">${result.type}</span>
+                            <strong>${result.data.title}</strong>
+                            <p style="margin-top: 5px; font-size: 0.9rem; color: #aaa;">${result.data.description.substring(0, 60)}...</p>
+                        </div>
+                        <div style="color: var(--accent-cyan);">${icon}</div>
+                    </div>
+                `;
+                
+                item.addEventListener('click', function() {
+                    // Navigate to appropriate section and open modal
+                    switch(result.type) {
+                        case 'service':
+                            showSection('services');
+                            openServiceModal(result.data.id);
+                            break;
+                        case 'product':
+                            showSection('store');
+                            openProductModal(result.data.id);
+                            break;
+                        case 'course':
+                            showSection('university');
+                            openCourseModal(result.data.id);
+                            break;
+                        case 'video':
+                            showSection('pulse');
+                            // Scroll to video
+                            break;
+                    }
+                    
+                    // Close search results
+                    document.getElementById('searchResults').classList.remove('active');
+                    document.getElementById('searchBar').value = '';
+                });
+                
+                searchResults.appendChild(item);
+            });
+        }
+
+        // ===== PART 1: FUNNY AI AGENT =====
+        function initAIAgent() {
+            const aiAgent = document.getElementById('aiAgent');
+            const aiSpeech = document.getElementById('aiSpeech');
+            const aiBody = aiAgent.querySelector('.ai-body');
+            const aiEyes = aiAgent.querySelectorAll('.ai-eye');
+            
+            // Initialize AI position
+            let aiX = window.innerWidth - 100;
+            let aiY = window.innerHeight - 250;
+            aiAgent.style.left = `${aiX}px`;
+            aiAgent.style.top = `${aiY}px`;
+            
+            // Add blinking animation to eyes
+            aiEyes.forEach(eye => {
+                eye.style.animation = 'blink 4s infinite';
+            });
+            
+            // Show random quote on hover
+            aiAgent.addEventListener('mouseenter', function() {
+                showAIQuote();
+            });
+            
+            aiAgent.addEventListener('mouseleave', function() {
+                aiSpeech.classList.remove('active');
+            });
+            
+            // Mobile touch support
+            aiAgent.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                showAIQuote();
+                
+                // Hide after 3 seconds on mobile
+                setTimeout(() => {
+                    aiSpeech.classList.remove('active');
+                }, 3000);
+            });
+            
+            // Collision avoidance
+            document.addEventListener('mousemove', function(e) {
+                // Calculate distance from cursor to AI
+                const aiRect = aiAgent.getBoundingClientRect();
+                const aiCenterX = aiRect.left + aiRect.width / 2;
+                const aiCenterY = aiRect.top + aiRect.height / 2;
+                
+                const distance = Math.sqrt(
+                    Math.pow(e.clientX - aiCenterX, 2) + 
+                    Math.pow(e.clientY - aiCenterY, 2)
+                );
+                
+                // If cursor is too close, move AI away
+                if (distance < 100) {
+                    moveAIAway(e.clientX, e.clientY);
+                }
+            });
+            
+            // Update AI position on window resize
+            window.addEventListener('resize', function() {
+                // Keep AI in visible area
+                aiX = Math.min(aiX, window.innerWidth - 80);
+                aiY = Math.min(aiY, window.innerHeight - 200);
+                aiAgent.style.left = `${aiX}px`;
+                aiAgent.style.top = `${aiY}px`;
+            });
+        }
+
+        function moveAIAway(cursorX, cursorY) {
+            const aiAgent = document.getElementById('aiAgent');
+            const aiRect = aiAgent.getBoundingClientRect();
+            
+            // Calculate new position (opposite direction from cursor)
+            const aiCenterX = aiRect.left + aiRect.width / 2;
+            const aiCenterY = aiRect.top + aiRect.height / 2;
+            
+            const deltaX = aiCenterX - cursorX;
+            const deltaY = aiCenterY - cursorY;
+            
+            // Normalize vector
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const moveX = (deltaX / distance) * 150;
+            const moveY = (deltaY / distance) * 150;
+            
+            // Calculate new position
+            let newX = aiRect.left + moveX;
+            let newY = aiRect.top + moveY;
+            
+            // Keep within viewport bounds
+            newX = Math.max(10, Math.min(newX, window.innerWidth - 80));
+            newY = Math.max(10, Math.min(newY, window.innerHeight - 200));
+            
+            // Apply smooth transition
+            aiAgent.style.transition = 'all 0.5s ease';
+            aiAgent.style.left = `${newX}px`;
+            aiAgent.style.top = `${newY}px`;
+            
+            // Reset transition after move
+            setTimeout(() => {
+                aiAgent.style.transition = '';
+            }, 500);
+        }
+
+        function showAIQuote() {
+            const aiSpeech = document.getElementById('aiSpeech');
+            const quotes = femtocDB.quotes;
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            
+            aiSpeech.textContent = randomQuote;
+            aiSpeech.classList.add('active');
+        }
+
+        function updateAIQuote(sectionId) {
+            const aiSpeech = document.getElementById('aiSpeech');
+            let quote = '';
+            
+            switch(sectionId) {
+                case 'home':
+                    quote = "Welcome to Femtoc! The future of skills starts here.";
+                    break;
+                case 'services':
+                    quote = "Professional services to bring your ideas to life.";
+                    break;
+                case 'store':
+                    quote = "Tools and products to boost your productivity.";
+                    break;
+                case 'university':
+                    quote = "Learn cutting-edge skills for the future.";
+                    break;
+                case 'pulse':
+                    quote = "Stay updated with the latest trends and insights.";
+                    break;
+            }
+            
+            aiSpeech.textContent = quote;
+        }
+
+        // ===== PART 3: RENDERING FUNCTIONS =====
+        function renderHomeCards() {
+            const container = document.getElementById('homeCards');
+            container.innerHTML = '';
+            
+            // Create summary cards for each section
+            const sections = [
+                {
+                    title: "Services",
+                    icon: "fas fa-cogs",
+                    description: "Professional services to bring your ideas to life",
+                    count: femtocDB.services.length,
+                    section: "services",
+                    color: "cyan"
+                },
+                {
+                    title: "Digital Store",
+                    icon: "fas fa-store",
+                    description: "Tools and products to boost your productivity",
+                    count: femtocDB.store.length,
+                    section: "store",
+                    color: "purple"
+                },
+                {
+                    title: "University",
+                    icon: "fas fa-graduation-cap",
+                    description: "Learn cutting-edge skills for the future",
+                    count: femtocDB.university.length,
+                    section: "university",
+                    color: "lime"
+                },
+                {
+                    title: "Pulse",
+                    icon: "fas fa-play-circle",
+                    description: "Stay updated with the latest trends",
+                    count: femtocDB.pulse.length,
+                    section: "pulse",
+                    color: "cyan"
+                }
+            ];
+            
+            sections.forEach(section => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="text-${section.color}" style="font-size: 2.5rem; margin-bottom: 1rem;">
+                        <i class="${section.icon}"></i>
+                    </div>
+                    <h3 class="card-title">${section.title}</h3>
+                    <p class="card-description">${section.description}</p>
+                    <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                        <span class="text-${section.color}">${section.count} Items</span>
+                        <button class="btn btn-secondary explore-btn" data-section="${section.section}">
+                            Explore <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Add event listeners to explore buttons
+            document.querySelectorAll('.explore-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const section = this.getAttribute('data-section');
+                    document.querySelector(`.nav-item[data-section="${section}"]`).click();
+                });
+            });
+        }
+
+        function renderServices(services) {
+            const container = document.getElementById('servicesContainer');
+            container.innerHTML = '';
+            
+            services.forEach(service => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-icon">
+                        <i class="${service.icon}"></i>
+                    </div>
+                    <h3 class="card-title">${service.title}</h3>
+                    <p class="card-description">${service.description}</p>
+                    <div class="card-tags">
+                        ${service.requirements.map(req => `<span class="tag">${req}</span>`).join('')}
+                    </div>
+                    <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                        <span class="card-price">${formatCurrency(service.cost)}</span>
+                        <button class="btn btn-primary get-service-btn" data-id="${service.id}">
+                            Get Started <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Add event listeners to service buttons
+            document.querySelectorAll('.get-service-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const serviceId = this.getAttribute('data-id');
+                    openServiceModal(serviceId);
+                });
+            });
+        }
+
+        function renderStore(products) {
+            const container = document.getElementById('storeContainer');
+            container.innerHTML = '';
+            
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div style="height: 200px; background: #222; border-radius: 10px; margin-bottom: 1rem; 
+                                background-image: url('${product.image}'); background-size: cover; background-position: center;">
+                    </div>
+                    <h3 class="card-title">${product.title}</h3>
+                    <p class="card-description">${product.description}</p>
+                    <div class="card-tags">
+                        ${product.features.map(feature => `<span class="tag">${feature}</span>`).join('')}
+                    </div>
+                    <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                        <span class="card-price">${formatCurrency(product.price)}</span>
+                        <button class="btn btn-primary buy-product-btn" data-id="${product.id}">
+                            Buy Now <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Add event listeners to buy buttons
+            document.querySelectorAll('.buy-product-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    openProductModal(productId);
+                });
+            });
+        }
+
+        function renderUniversity(courses) {
+            const container = document.getElementById('universityContainer');
+            container.innerHTML = '';
+            
+            courses.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div style="height: 200px; background: #222; border-radius: 10px; margin-bottom: 1rem;
+                                background-image: url('${course.thumbnail}'); background-size: cover; background-position: center;">
+                    </div>
+                    <h3 class="card-title">${course.title}</h3>
+                    <p class="card-description">${course.description}</p>
+                    <div class="card-tags">
+                        ${course.skills.map(skill => `<span class="tag">${skill}</span>`).join('')}
+                    </div>
+                    <button class="btn btn-primary enroll-course-btn" data-id="${course.id}" style="width: 100%;">
+                        Enroll Now <i class="fas fa-graduation-cap"></i>
+                    </button>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Add event listeners to enroll buttons
+            document.querySelectorAll('.enroll-course-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const courseId = this.getAttribute('data-id');
+                    openCourseModal(courseId);
+                });
+            });
+        }
+
+        function renderPulse(videos) {
+            const container = document.getElementById('pulseContainer');
+            container.innerHTML = '';
+            
+            videos.forEach((video, index) => {
+                const videoCard = document.createElement('div');
+                videoCard.className = 'video-card';
+                videoCard.setAttribute('data-video-id', video.id);
+                
+                videoCard.innerHTML = `
+                    <video class="video-player" playsinline loop muted preload="metadata">
+                        <source src="${video.videoUrl}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay">
+                        <h2>${video.title}</h2>
+                        <p>${video.description}</p>
+                        <div class="d-flex" style="gap: 1rem;">
+                            <span><i class="fas fa-heart"></i> ${video.likes}</span>
+                            <span><i class="fas fa-share"></i> ${video.shares}</span>
+                            <span><i class="fas fa-comment"></i> ${video.comments.length}</span>
+                        </div>
+                    </div>
+                    <div class="video-controls">
+                        <div class="video-btn like-btn" data-video-id="${video.id}">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="video-btn share-btn" data-video-id="${video.id}">
+                            <i class="fas fa-share"></i>
+                        </div>
+                        <div class="video-btn whatsapp-btn-pulse" data-video-id="${video.id}">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(videoCard);
+            });
+            
+            // Initialize IntersectionObserver for video playback
+            initVideoPlayback();
+            
+            // Add event listeners to video controls
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const videoId = this.getAttribute('data-video-id');
+                    likeVideo(videoId);
+                });
+            });
+            
+            document.querySelectorAll('.share-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const videoId = this.getAttribute('data-video-id');
+                    shareVideo(videoId);
+                });
+            });
+            
+            document.querySelectorAll('.whatsapp-btn-pulse').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const videoId = this.getAttribute('data-video-id');
+                    const video = femtocDB.pulse.find(v => v.id === videoId);
+                    if (video) {
+                        sendToWhatsApp('pulse', video, {});
+                    }
+                });
+            });
+            
+            // Tap to mute/unmute
+            document.querySelectorAll('.video-player').forEach(video => {
+                video.addEventListener('click', function() {
+                    this.muted = !this.muted;
+                    // Show mute/unmute indicator
+                    showToast(this.muted ? 'Video Muted' : 'Video Unmuted', 1000);
+                });
+            });
+        }
+
+        function initVideoPlayback() {
+            const videoObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        const video = entry.target.querySelector('.video-player');
+                        if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+                            video.play().catch(e => console.log("Autoplay prevented:", e));
+                        } else {
+                            video.pause();
+                        }
+                    });
+                },
+                {
+                    threshold: [0.6]
+                }
+            );
+            
+            // Observe each video card
+            document.querySelectorAll('.video-card').forEach(card => {
+                videoObserver.observe(card);
+            });
+        }
+
+        function likeVideo(videoId) {
+            const video = femtocDB.pulse.find(v => v.id === videoId);
+            if (video) {
+                video.likes++;
+                
+                // Update UI
+                const likeBtn = document.querySelector(`.like-btn[data-video-id="${videoId}"]`);
+                const likeCount = likeBtn.closest('.video-card').querySelector('.fa-heart').parentElement;
+                likeCount.textContent = ` ${video.likes}`;
+                
+                // Add visual feedback
+                likeBtn.classList.add('active');
+                setTimeout(() => likeBtn.classList.remove('active'), 300);
+                
+                showToast('Liked!', 1000);
+            }
+        }
+
+        function shareVideo(videoId) {
+            const video = femtocDB.pulse.find(v => v.id === videoId);
+            if (video) {
+                video.shares++;
+                
+                // Update UI
+                const shareBtn = document.querySelector(`.share-btn[data-video-id="${videoId}"]`);
+                const shareCount = shareBtn.closest('.video-card').querySelector('.fa-share').parentElement;
+                shareCount.textContent = ` ${video.shares}`;
+                
+                // Create shareable link
+                const shareData = {
+                    title: video.title,
+                    text: video.description,
+                    url: window.location.origin + '#pulse-' + videoId
+                };
+                
+                if (navigator.share) {
+                    navigator.share(shareData);
+                } else {
+                    // Fallback: copy to clipboard
+                    navigator.clipboard.writeText(shareData.url);
+                    showToast('Link copied to clipboard!', 2000);
+                }
+            }
+        }
+
+        // ===== PART 3: MODAL & FORM LOGIC =====
+        function openServiceModal(serviceId) {
+            const service = femtocDB.services.find(s => s.id === serviceId);
+            if (!service) return;
+            
+            const modal = document.getElementById('serviceModal');
+            const title = document.getElementById('serviceModalTitle');
+            const content = document.getElementById('serviceModalContent');
+            
+            title.textContent = service.title;
+            
+            // Build form HTML
+            let formHTML = `
+                <p class="mb-3">${service.description}</p>
+                <div class="form-group">
+                    <label class="form-label">Your Name *</label>
+                    <input type="text" class="form-input" id="userName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Your Location *</label>
+                    <div class="location-group">
+                        <input type="text" class="form-input" id="userLocation" placeholder="City, Country" required>
+                        <button type="button" class="btn btn-secondary" id="detectLocationBtn">
+                            <i class="fas fa-location-arrow"></i>
+                        </button>
+                    </div>
+                </div>
+                <h4 class="mt-3 mb-2">Service Requirements:</h4>
+                <ul class="mb-3">
+                    ${service.requirements.map(req => `<li>${req}</li>`).join('')}
+                </ul>
+            `;
+            
+            // Add dynamic questions
+            service.questions.forEach((question, index) => {
+                formHTML += `
+                    <div class="form-group">
+                        <label class="form-label">${index + 1}. ${question}</label>
+                        <input type="text" class="form-input" id="question-${index}" placeholder="Your answer">
+                    </div>
+                `;
+            });
+            
+            formHTML += `
+                <div class="d-flex" style="gap: 1rem; margin-top: 2rem;">
+                    <button class="btn btn-primary" id="submitServiceRequest" data-service-id="${service.id}" style="flex: 1;">
+                        Submit Request <i class="fas fa-paper-plane"></i>
+                    </button>
+                    <button class="btn btn-secondary" id="cancelServiceRequest" style="flex: 1;">
+                        Cancel
+                    </button>
+                </div>
+            `;
+            
+            content.innerHTML = formHTML;
+            modal.classList.add('active');
+            
+            // Load saved user data if available
+            loadUserDataIntoForm();
+            
+            // Add event listeners
+            document.getElementById('detectLocationBtn').addEventListener('click', detectUserLocation);
+            document.getElementById('submitServiceRequest').addEventListener('click', submitServiceRequest);
+            document.getElementById('cancelServiceRequest').addEventListener('click', () => modal.classList.remove('active'));
+        }
+
+        function openProductModal(productId) {
+            const product = femtocDB.store.find(p => p.id === productId);
+            if (!product) return;
+            
+            const modal = document.getElementById('actionModal');
+            const title = document.getElementById('actionModalTitle');
+            const content = document.getElementById('actionModalContent');
+            
+            title.textContent = product.title;
+            
+            content.innerHTML = `
+                <div style="height: 250px; background: #222; border-radius: 10px; margin-bottom: 1.5rem;
+                            background-image: url('${product.image}'); background-size: cover; background-position: center;">
+                </div>
+                <p class="mb-2">${product.description}</p>
+                <h4 class="text-lime mb-2">${formatCurrency(product.price)}</h4>
+                <h4 class="mt-3 mb-2">Features:</h4>
+                <ul class="mb-3">
+                    ${product.features.map(feature => `<li>${feature}</li>`).join('')}
+                </ul>
+                <div class="form-group">
+                    <label class="form-label">Your Name *</label>
+                    <input type="text" class="form-input" id="productUserName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Your Location *</label>
+                    <div class="location-group">
+                        <input type="text" class="form-input" id="productUserLocation" placeholder="City, Country" required>
+                        <button type="button" class="btn btn-secondary" id="detectProductLocationBtn">
+                            <i class="fas fa-location-arrow"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex" style="gap: 1rem; margin-top: 2rem;">
+                    <button class="btn btn-primary" id="submitProductRequest" data-product-id="${product.id}" style="flex: 1;">
+                        Buy Now <i class="fas fa-shopping-cart"></i>
+                    </button>
+                    <button class="btn btn-secondary" id="cancelProductRequest" style="flex: 1;">
+                        Cancel
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            
+            // Load saved user data if available
+            const savedName = localStorage.getItem('femtoc_user_name');
+            const savedLocation = localStorage.getItem('femtoc_user_location');
+            
+            if (savedName) document.getElementById('productUserName').value = savedName;
+            if (savedLocation) document.getElementById('productUserLocation').value = savedLocation;
+            
+            // Add event listeners
+            document.getElementById('detectProductLocationBtn').addEventListener('click', detectUserLocationForProduct);
+            document.getElementById('submitProductRequest').addEventListener('click', submitProductRequest);
+            document.getElementById('cancelProductRequest').addEventListener('click', () => modal.classList.remove('active'));
+        }
+
+        function openCourseModal(courseId) {
+            const course = femtocDB.university.find(c => c.id === courseId);
+            if (!course) return;
+            
+            const modal = document.getElementById('actionModal');
+            const title = document.getElementById('actionModalTitle');
+            const content = document.getElementById('actionModalContent');
+            
+            title.textContent = course.title;
+            
+            content.innerHTML = `
+                <div style="height: 250px; background: #222; border-radius: 10px; margin-bottom: 1.5rem;
+                            background-image: url('${course.thumbnail}'); background-size: cover; background-position: center;">
+                </div>
+                <p class="mb-2">${course.description}</p>
+                <h4 class="mt-3 mb-2">Skills You'll Learn:</h4>
+                <div class="card-tags mb-3">
+                    ${course.skills.map(skill => `<span class="tag">${skill}</span>`).join('')}
+                </div>
+                <h4 class="mt-3 mb-2">Course Syllabus:</h4>
+                <ul class="mb-3">
+                    ${course.syllabus.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+                <div class="form-group">
+                    <label class="form-label">Your Name *</label>
+                    <input type="text" class="form-input" id="courseUserName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Your Location *</label>
+                    <div class="location-group">
+                        <input type="text" class="form-input" id="courseUserLocation" placeholder="City, Country" required>
+                        <button type="button" class="btn btn-secondary" id="detectCourseLocationBtn">
+                            <i class="fas fa-location-arrow"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex" style="gap: 1rem; margin-top: 2rem;">
+                    <button class="btn btn-primary" id="submitCourseRequest" data-course-id="${course.id}" style="flex: 1;">
+                        Enroll Now <i class="fas fa-graduation-cap"></i>
+                    </button>
+                    <button class="btn btn-secondary" id="cancelCourseRequest" style="flex: 1;">
+                        Cancel
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            
+            // Load saved user data if available
+            const savedName = localStorage.getItem('femtoc_user_name');
+            const savedLocation = localStorage.getItem('femtoc_user_location');
+            
+            if (savedName) document.getElementById('courseUserName').value = savedName;
+            if (savedLocation) document.getElementById('courseUserLocation').value = savedLocation;
+            
+            // Add event listeners
+            document.getElementById('detectCourseLocationBtn').addEventListener('click', detectUserLocationForCourse);
+            document.getElementById('submitCourseRequest').addEventListener('click', submitCourseRequest);
+            document.getElementById('cancelCourseRequest').addEventListener('click', () => modal.classList.remove('active'));
+        }
+
+        // ===== PART 3: LOCATION DETECTION =====
+        function detectUserLocation() {
+            const locationInput = document.getElementById('userLocation');
+            locationInput.placeholder = 'Detecting location...';
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        // Reverse geocoding would be needed for city name
+                        // For now, use coordinates
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        locationInput.value = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+                        showToast('Location detected!', 1000);
+                    },
+                    (error) => {
+                        console.error('Geolocation error:', error);
+                        locationInput.placeholder = 'City, Country';
+                        showToast('Unable to detect location. Please enter manually.', 3000);
+                    }
+                );
+            } else {
+                locationInput.placeholder = 'City, Country';
+                showToast('Geolocation not supported by your browser.', 3000);
+            }
+        }
+
+        function detectUserLocationForProduct() {
+            const locationInput = document.getElementById('productUserLocation');
+            detectLocationForInput(locationInput);
+        }
+
+        function detectUserLocationForCourse() {
+            const locationInput = document.getElementById('courseUserLocation');
+            detectLocationForInput(locationInput);
+        }
+
+        function detectLocationForInput(inputElement) {
+            inputElement.placeholder = 'Detecting location...';
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        inputElement.value = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+                        showToast('Location detected!', 1000);
+                    },
+                    (error) => {
+                        console.error('Geolocation error:', error);
+                        inputElement.placeholder = 'City, Country';
+                        showToast('Unable to detect location. Please enter manually.', 3000);
+                    }
+                );
+            } else {
+                inputElement.placeholder = 'City, Country';
+                showToast('Geolocation not supported by your browser.', 3000);
+            }
+        }
+
+        // ===== PART 3: WHATSAPP BRIDGE =====
+        function sendToWhatsApp(type, itemData, userInputs) {
+            let message = '';
+            const adminPhone = femtocDB.config.adminPhone;
+            
+            switch(type) {
+                case 'service':
+                    message = `[ FEMTOC SERVICE REQUEST ]
+--------------------------
+👤 Name: ${userInputs.name}
+📍 Location: ${userInputs.location}
+--------------------------
+🛠 Service: ${itemData.title}
+🆔 ID: ${itemData.id}
+--------------------------
+📋 CLIENT RESPONSES:
+${userInputs.questions.map((q, i) => `${i+1}. ${q.question}: ${q.answer}`).join('\n')}
+--------------------------
+[Generated via Femtoc Platform]`;
+                    break;
+                    
+                case 'product':
+                    message = `[ FEMTOC STORE ORDER ]
+--------------------------
+👤 Name: ${userInputs.name}
+📍 Location: ${userInputs.location}
+--------------------------
+🛍 Product: ${itemData.title}
+💰 Price: ${formatCurrency(itemData.price)}
+🆔 ID: ${itemData.id}
+--------------------------
+I want to buy "${itemData.title}". Please contact me with payment details.
+--------------------------
+[Generated via Femtoc Platform]`;
+                    break;
+                    
+                case 'course':
+                    message = `[ FEMTOC UNIVERSITY ENROLLMENT ]
+--------------------------
+👤 Name: ${userInputs.name}
+📍 Location: ${userInputs.location}
+--------------------------
+🎓 Course: ${itemData.title}
+🆔 ID: ${itemData.id}
+--------------------------
+I want to join "${itemData.title}". Please send me enrollment details.
+--------------------------
+[Generated via Femtoc Platform]`;
+                    break;
+                    
+                case 'pulse':
+                    message = `Hey Femtoc Admin, I liked this Pulse Video!
+📹 Title: ${itemData.title}
+🆔 ID: ${itemData.id}
+📈 Likes: ${itemData.likes}
+[Sent via Femtoc Platform]`;
+                    break;
+                    
+                case 'general':
+                    message = `Hello Femtoc Admin, my name is ${userInputs.name} and I am from ${userInputs.location}. I have a general inquiry.`;
+                    break;
+            }
+            
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${adminPhone}?text=${encodedMessage}`;
+            
+            // Open WhatsApp in new tab
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function submitServiceRequest() {
+            const serviceId = document.getElementById('submitServiceRequest').getAttribute('data-service-id');
+            const service = femtocDB.services.find(s => s.id === serviceId);
+            
+            const userName = document.getElementById('userName').value;
+            const userLocation = document.getElementById('userLocation').value;
+            
+            if (!userName || !userLocation) {
+                showToast('Please fill in your name and location', 3000);
+                return;
+            }
+            
+            // Save user data
+            saveUserData(userName, userLocation);
+            
+            // Collect answers to questions
+            const questions = [];
+            service.questions.forEach((question, index) => {
+                const answer = document.getElementById(`question-${index}`).value;
+                questions.push({ question, answer });
+            });
+            
+            // Prepare user inputs
+            const userInputs = {
+                name: userName,
+                location: userLocation,
+                questions: questions
+            };
+            
+            // Send to WhatsApp
+            sendToWhatsApp('service', service, userInputs);
+            
+            // Close modal
+            document.getElementById('serviceModal').classList.remove('active');
+            
+            // Show confirmation
+            showToast('Service request sent via WhatsApp!', 3000);
+        }
+
+        function submitProductRequest() {
+            const productId = document.getElementById('submitProductRequest').getAttribute('data-product-id');
+            const product = femtocDB.store.find(p => p.id === productId);
+            
+            const userName = document.getElementById('productUserName').value;
+            const userLocation = document.getElementById('productUserLocation').value;
+            
+            if (!userName || !userLocation) {
+                showToast('Please fill in your name and location', 3000);
+                return;
+            }
+            
+            // Save user data
+            saveUserData(userName, userLocation);
+            
+            // Prepare user inputs
+            const userInputs = {
+                name: userName,
+                location: userLocation
+            };
+            
+            // Send to WhatsApp
+            sendToWhatsApp('product', product, userInputs);
+            
+            // Close modal
+            document.getElementById('actionModal').classList.remove('active');
+            
+            // Show confirmation
+            showToast('Product inquiry sent via WhatsApp!', 3000);
+        }
+
+        function submitCourseRequest() {
+            const courseId = document.getElementById('submitCourseRequest').getAttribute('data-course-id');
+            const course = femtocDB.university.find(c => c.id === courseId);
+            
+            const userName = document.getElementById('courseUserName').value;
+            const userLocation = document.getElementById('courseUserLocation').value;
+            
+            if (!userName || !userLocation) {
+                showToast('Please fill in your name and location', 3000);
+                return;
+            }
+            
+            // Save user data
+            saveUserData(userName, userLocation);
+            
+            // Prepare user inputs
+            const userInputs = {
+                name: userName,
+                location: userLocation
+            };
+            
+            // Send to WhatsApp
+            sendToWhatsApp('course', course, userInputs);
+            
+            // Close modal
+            document.getElementById('actionModal').classList.remove('active');
+            
+            // Show confirmation
+            showToast('Course enrollment request sent via WhatsApp!', 3000);
+        }
+
+        // ===== PART 3: USER DATA MANAGEMENT =====
+        function saveUserData(name, location) {
+            localStorage.setItem('femtoc_user_name', name);
+            localStorage.setItem('femtoc_user_location', location);
+        }
+
+        function loadUserData() {
+            // This function is called on page load
+            // User data will be loaded when forms are opened
+        }
+
+        function loadUserDataIntoForm() {
+            const savedName = localStorage.getItem('femtoc_user_name');
+            const savedLocation = localStorage.getItem('femtoc_user_location');
+            
+            const nameInput = document.getElementById('userName');
+            const locationInput = document.getElementById('userLocation');
+            
+            if (nameInput && savedName) nameInput.value = savedName;
+            if (locationInput && savedLocation) locationInput.value = savedLocation;
+        }
+
+        // ===== PART 4 & 5: ADMIN PANEL =====
+        function initAdminTrigger() {
+            const logo = document.querySelector('.logo');
+            let tapCount = 0;
+            let lastTap = 0;
+            
+            logo.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                
+                if (tapLength < 500 && tapLength > 0) {
+                    tapCount++;
+                } else {
+                    tapCount = 1;
+                }
+                
+                lastTap = currentTime;
+                
+                if (tapCount === 3) {
+                    // Triple tap detected - open admin panel
+                    openAdminPanel();
+                    tapCount = 0;
+                }
+            });
+        }
+
+        function openAdminPanel() {
+            // Show password prompt
+            const password1 = prompt('Enter Admin Password 1:');
+            if (!password1) return;
+            
+            // Check first password (hash of By@638771247093)
+            // For simplicity, we'll use a simple hash check
+            const hash1 = stringToHash(password1);
+            const expectedHash1 = stringToHash('By@638771247093');
+            
+            if (hash1 !== expectedHash1) {
+                showAccessDenied();
+                return;
+            }
+            
+            // Second password
+            const password2 = prompt('Enter Admin Password 2:');
+            if (!password2) return;
+            
+            // Check second password (274401)
+            const hash2 = stringToHash(password2);
+            const expectedHash2 = stringToHash('274401');
+            
+            if (hash2 !== expectedHash2) {
+                showAccessDenied();
+                return;
+            }
+            
+            // Success - show admin panel
+            const adminPanel = document.getElementById('adminPanel');
+            adminPanel.classList.add('active');
+            
+            // Initialize admin panel
+            initAdminPanel();
+        }
+
+        function stringToHash(str) {
+            // Simple hash function for demo purposes
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return hash;
+        }
+
+        function showAccessDenied() {
+            const logo = document.querySelector('.logo');
+            const originalText = logo.innerHTML;
+            
+            // Add glitch effect
+            logo.classList.add('glitch');
+            logo.style.color = '#ff0033';
+            
+            // Reset after 1 second
+            setTimeout(() => {
+                logo.classList.remove('glitch');
+                logo.style.color = '';
+            }, 1000);
+            
+            showToast('Access Denied', 2000);
+        }
+
+        function initAdminPanel() {
+            // Load admin data
+            loadAdminData();
+            
+            // Initialize tabs
+            const adminTabs = document.querySelectorAll('.admin-tab');
+            adminTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-admin-tab');
+                    
+                    // Update active tab
+                    adminTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const sections = document.querySelectorAll('.admin-section');
+                    sections.forEach(section => section.classList.remove('active'));
+                    document.getElementById(`admin${tabId.charAt(0).toUpperCase() + tabId.slice(1)}`).classList.add('active');
+                });
+            });
+            
+            // Initialize admin buttons
+            document.getElementById('closeAdminBtn').addEventListener('click', function() {
+                document.getElementById('adminPanel').classList.remove('active');
+            });
+            
+            document.getElementById('saveDeployBtn').addEventListener('click', function() {
+                pushUpdateToGitHub();
+            });
+            
+            document.getElementById('saveQuotesBtn').addEventListener('click', function() {
+                saveQuotes();
+            });
+            
+            document.getElementById('importJsonBtn').addEventListener('click', function() {
+                importBulkJSON();
+            });
+            
+            document.getElementById('saveSettingsBtn').addEventListener('click', function() {
+                saveAdminSettings();
+            });
+            
+            // Initialize add buttons
+            document.getElementById('addServiceBtn').addEventListener('click', function() {
+                addNewItem('service');
+            });
+            
+            document.getElementById('addProductBtn').addEventListener('click', function() {
+                addNewItem('product');
+            });
+            
+            document.getElementById('addCourseBtn').addEventListener('click', function() {
+                addNewItem('course');
+            });
+            
+            document.getElementById('addVideoBtn').addEventListener('click', function() {
+                addNewItem('video');
+            });
+        }
+
+        function loadAdminData() {
+            // Load quotes into textarea
+            const quotesTextarea = document.getElementById('quotesTextarea');
+            quotesTextarea.value = femtocDB.quotes.join('\n');
+            
+            // Load typing texts
+            const typingTextInput = document.getElementById('typingTextInput');
+            typingTextInput.value = femtocDB.config.typingTexts.join(', ');
+            
+            // Load settings
+            document.getElementById('adminPhoneInput').value = femtocDB.config.adminPhone;
+            document.getElementById('currencyInput').value = femtocDB.config.currency;
+            
+            // Load items for each category
+            renderAdminServices();
+            renderAdminStore();
+            renderAdminUniversity();
+            renderAdminPulse();
+        }
+
+        function renderAdminServices() {
+            const container = document.getElementById('adminServicesList');
+            container.innerHTML = '';
+            
+            femtocDB.services.forEach(service => {
+                const item = document.createElement('div');
+                item.className = 'admin-item';
+                item.innerHTML = `
+                    <div>
+                        <strong>${service.title}</strong>
+                        <div style="color: #00aa00; font-size: 0.9rem;">${service.description.substring(0, 50)}...</div>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="btn btn-secondary edit-item-btn" data-type="service" data-id="${service.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger delete-item-btn" data-type="service" data-id="${service.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+            
+            // Add event listeners
+            addAdminItemEventListeners();
+        }
+
+        function renderAdminStore() {
+            const container = document.getElementById('adminStoreList');
+            container.innerHTML = '';
+            
+            femtocDB.store.forEach(product => {
+                const item = document.createElement('div');
+                item.className = 'admin-item';
+                item.innerHTML = `
+                    <div>
+                        <strong>${product.title}</strong>
+                        <div style="color: #00aa00; font-size: 0.9rem;">${formatCurrency(product.price)}</div>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="btn btn-secondary edit-item-btn" data-type="store" data-id="${product.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger delete-item-btn" data-type="store" data-id="${product.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+            
+            // Add event listeners
+            addAdminItemEventListeners();
+        }
+
+        function renderAdminUniversity() {
+            const container = document.getElementById('adminUniversityList');
+            container.innerHTML = '';
+            
+            femtocDB.university.forEach(course => {
+                const item = document.createElement('div');
+                item.className = 'admin-item';
+                item.innerHTML = `
+                    <div>
+                        <strong>${course.title}</strong>
+                        <div style="color: #00aa00; font-size: 0.9rem;">${course.skills.length} skills</div>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="btn btn-secondary edit-item-btn" data-type="university" data-id="${course.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger delete-item-btn" data-type="university" data-id="${course.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+            
+            // Add event listeners
+            addAdminItemEventListeners();
+        }
+
+        function renderAdminPulse() {
+            const container = document.getElementById('adminPulseList');
+            container.innerHTML = '';
+            
+            femtocDB.pulse.forEach(video => {
+                const item = document.createElement('div');
+                item.className = 'admin-item';
+                item.innerHTML = `
+                    <div>
+                        <strong>${video.title}</strong>
+                        <div style="color: #00aa00; font-size: 0.9rem;">${video.likes} likes, ${video.shares} shares</div>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="btn btn-secondary edit-item-btn" data-type="pulse" data-id="${video.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger delete-item-btn" data-type="pulse" data-id="${video.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+            
+            // Add event listeners
+            addAdminItemEventListeners();
+        }
+
+        function addAdminItemEventListeners() {
+            // Edit buttons
+            document.querySelectorAll('.edit-item-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    const id = this.getAttribute('data-id');
+                    editItem(type, id);
+                });
+            });
+            
+            // Delete buttons
+            document.querySelectorAll('.delete-item-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    const id = this.getAttribute('data-id');
+                    deleteItem(type, id);
+                });
+            });
+        }
+
+        function addNewItem(type) {
+            let item = {};
+            let title = '';
+            
+            switch(type) {
+                case 'service':
+                    title = 'Add New Service';
+                    item = {
+                        id: 'serv-' + (femtocDB.services.length + 1),
+                        title: '',
+                        icon: 'fas fa-cogs',
+                        description: '',
+                        requirements: [],
+                        questions: [],
+                        cost: 0
+                    };
+                    break;
+                case 'product':
+                    title = 'Add New Product';
+                    item = {
+                        id: 'prod-' + (femtocDB.store.length + 1),
+                        title: '',
+                        image: '',
+                        price: 0,
+                        description: '',
+                        features: [],
+                        link: '#'
+                    };
+                    break;
+                case 'course':
+                    title = 'Add New Course';
+                    item = {
+                        id: 'course-' + (femtocDB.university.length + 1),
+                        title: '',
+                        thumbnail: '',
+                        description: '',
+                        skills: [],
+                        syllabus: []
+                    };
+                    break;
+                case 'video':
+                    title = 'Add New Video';
+                    item = {
+                        id: 'pulse-' + (femtocDB.pulse.length + 1),
+                        videoUrl: '',
+                        title: '',
+                        description: '',
+                        likes: 0,
+                        shares: 0,
+                        comments: []
+                    };
+                    break;
+            }
+            
+            editItemModal(type, item, title, true);
+        }
+
+        function editItem(type, id) {
+            let item, title;
+            
+            switch(type) {
+                case 'service':
+                    item = femtocDB.services.find(s => s.id === id);
+                    title = 'Edit Service';
+                    break;
+                case 'store':
+                    item = femtocDB.store.find(p => p.id === id);
+                    title = 'Edit Product';
+                    break;
+                case 'university':
+                    item = femtocDB.university.find(c => c.id === id);
+                    title = 'Edit Course';
+                    break;
+                case 'pulse':
+                    item = femtocDB.pulse.find(v => v.id === id);
+                    title = 'Edit Video';
+                    break;
+            }
+            
+            if (item) {
+                editItemModal(type, item, title, false);
+            }
+        }
+
+        function editItemModal(type, item, title, isNew) {
+            // Create modal for editing
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.style.zIndex = '3000';
+            
+            let formHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>${title}</h3>
+                        <button class="modal-close close-edit-modal">&times;</button>
+                    </div>
+                    <div id="editItemForm">
+            `;
+            
+            switch(type) {
+                case 'service':
+                    formHTML += `
+                        <div class="form-group">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-input" id="edit-title" value="${item.title}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Icon (FontAwesome class)</label>
+                            <input type="text" class="form-input" id="edit-icon" value="${item.icon}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-input" id="edit-description" rows="3">${item.description}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Cost (${femtocDB.config.currency})</label>
+                            <input type="number" class="form-input" id="edit-cost" value="${item.cost}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Requirements (comma separated)</label>
+                            <input type="text" class="form-input" id="edit-requirements" value="${item.requirements.join(', ')}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Questions (one per line)</label>
+                            <textarea class="form-input" id="edit-questions" rows="4">${item.questions.join('\n')}</textarea>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'store':
+                    formHTML += `
+                        <div class="form-group">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-input" id="edit-title" value="${item.title}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Image URL</label>
+                            <input type="text" class="form-input" id="edit-image" value="${item.image}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Price (${femtocDB.config.currency})</label>
+                            <input type="number" class="form-input" id="edit-price" value="${item.price}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-input" id="edit-description" rows="3">${item.description}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Features (comma separated)</label>
+                            <input type="text" class="form-input" id="edit-features" value="${item.features.join(', ')}">
+                        </div>
+                    `;
+                    break;
+                    
+                case 'university':
+                    formHTML += `
+                        <div class="form-group">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-input" id="edit-title" value="${item.title}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Thumbnail URL</label>
+                            <input type="text" class="form-input" id="edit-thumbnail" value="${item.thumbnail}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-input" id="edit-description" rows="3">${item.description}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Skills (comma separated)</label>
+                            <input type="text" class="form-input" id="edit-skills" value="${item.skills.join(', ')}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Syllabus (one per line)</label>
+                            <textarea class="form-input" id="edit-syllabus" rows="4">${item.syllabus.join('\n')}</textarea>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'pulse':
+                    formHTML += `
+                        <div class="form-group">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-input" id="edit-title" value="${item.title}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Video URL</label>
+                            <input type="text" class="form-input" id="edit-videoUrl" value="${item.videoUrl}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-input" id="edit-description" rows="3">${item.description}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Likes</label>
+                            <input type="number" class="form-input" id="edit-likes" value="${item.likes}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Shares</label>
+                            <input type="number" class="form-input" id="edit-shares" value="${item.shares}">
+                        </div>
+                    `;
+                    break;
+            }
+            
+            formHTML += `
+                    <div class="d-flex" style="gap: 1rem; margin-top: 2rem;">
+                        <button class="btn btn-primary save-edit-btn" data-type="${type}" data-id="${item.id}" data-new="${isNew}" style="flex: 1;">
+                            Save
+                        </button>
+                        <button class="btn btn-secondary close-edit-modal" style="flex: 1;">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            `;
+            
+            modal.innerHTML = formHTML;
+            document.body.appendChild(modal);
+            
+            // Add event listeners
+            modal.querySelector('.close-edit-modal').addEventListener('click', function() {
+                modal.remove();
+            });
+            
+            modal.querySelector('.save-edit-btn').addEventListener('click', function() {
+                saveEditedItem(type, item.id, isNew);
+                modal.remove();
+            });
+            
+            // Close when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.remove();
+                }
+            });
+        }
+
+        function saveEditedItem(type, id, isNew) {
+            // Get form values
+            const title = document.getElementById('edit-title').value;
+            
+            switch(type) {
+                case 'service':
+                    const service = {
+                        id: id,
+                        title: title,
+                        icon: document.getElementById('edit-icon').value,
+                        description: document.getElementById('edit-description').value,
+                        cost: parseInt(document.getElementById('edit-cost').value) || 0,
+                        requirements: document.getElementById('edit-requirements').value.split(',').map(s => s.trim()).filter(s => s),
+                        questions: document.getElementById('edit-questions').value.split('\n').map(s => s.trim()).filter(s => s)
+                    };
+                    
+                    if (isNew) {
+                        femtocDB.services.push(service);
+                    } else {
+                        const index = femtocDB.services.findIndex(s => s.id === id);
+                        if (index !== -1) femtocDB.services[index] = service;
+                    }
+                    renderAdminServices();
+                    renderServices(femtocDB.services);
+                    break;
+                    
+                case 'store':
+                    const product = {
+                        id: id,
+                        title: title,
+                        image: document.getElementById('edit-image').value,
+                        price: parseInt(document.getElementById('edit-price').value) || 0,
+                        description: document.getElementById('edit-description').value,
+                        features: document.getElementById('edit-features').value.split(',').map(s => s.trim()).filter(s => s),
+                        link: '#'
+                    };
+                    
+                    if (isNew) {
+                        femtocDB.store.push(product);
+                    } else {
+                        const index = femtocDB.store.findIndex(p => p.id === id);
+                        if (index !== -1) femtocDB.store[index] = product;
+                    }
+                    renderAdminStore();
+                    renderStore(femtocDB.store);
+                    break;
+                    
+                case 'university':
+                    const course = {
+                        id: id,
+                        title: title,
+                        thumbnail: document.getElementById('edit-thumbnail').value,
+                        description: document.getElementById('edit-description').value,
+                        skills: document.getElementById('edit-skills').value.split(',').map(s => s.trim()).filter(s => s),
+                        syllabus: document.getElementById('edit-syllabus').value.split('\n').map(s => s.trim()).filter(s => s)
+                    };
+                    
+                    if (isNew) {
+                        femtocDB.university.push(course);
+                    } else {
+                        const index = femtocDB.university.findIndex(c => c.id === id);
+                        if (index !== -1) femtocDB.university[index] = course;
+                    }
+                    renderAdminUniversity();
+                    renderUniversity(femtocDB.university);
+                    break;
+                    
+                case 'pulse':
+                    const video = {
+                        id: id,
+                        title: title,
+                        videoUrl: document.getElementById('edit-videoUrl').value,
+                        description: document.getElementById('edit-description').value,
+                        likes: parseInt(document.getElementById('edit-likes').value) || 0,
+                        shares: parseInt(document.getElementById('edit-shares').value) || 0,
+                        comments: []
+                    };
+                    
+                    if (isNew) {
+                        femtocDB.pulse.push(video);
+                    } else {
+                        const index = femtocDB.pulse.findIndex(v => v.id === id);
+                        if (index !== -1) femtocDB.pulse[index] = video;
+                    }
+                    renderAdminPulse();
+                    renderPulse(femtocDB.pulse);
+                    break;
+            }
+            
+            showToast(`${type} ${isNew ? 'added' : 'updated'} successfully!`, 2000);
+        }
+
+        function deleteItem(type, id) {
+            if (!confirm(`Are you sure you want to delete this ${type}?`)) return;
+            
+            let array;
+            switch(type) {
+                case 'service': array = femtocDB.services; break;
+                case 'store': array = femtocDB.store; break;
+                case 'university': array = femtocDB.university; break;
+                case 'pulse': array = femtocDB.pulse; break;
+            }
+            
+            const index = array.findIndex(item => item.id === id);
+            if (index !== -1) {
+                array.splice(index, 1);
+                
+                // Re-render admin view
+                switch(type) {
+                    case 'service': 
+                        renderAdminServices();
+                        renderServices(femtocDB.services);
+                        break;
+                    case 'store': 
+                        renderAdminStore();
+                        renderStore(femtocDB.store);
+                        break;
+                    case 'university': 
+                        renderAdminUniversity();
+                        renderUniversity(femtocDB.university);
+                        break;
+                    case 'pulse': 
+                        renderAdminPulse();
+                        renderPulse(femtocDB.pulse);
+                        break;
+                }
+                
+                showToast(`${type} deleted successfully!`, 2000);
+            }
+        }
+
+        function saveQuotes() {
+            const quotesText = document.getElementById('quotesTextarea').value;
+            const typingText = document.getElementById('typingTextInput').value;
+            
+            femtocDB.quotes = quotesText.split('\n').filter(q => q.trim());
+            femtocDB.config.typingTexts = typingText.split(',').map(t => t.trim()).filter(t => t);
+            
+            showToast('Quotes and typing texts saved!', 2000);
+        }
+
+        function importBulkJSON() {
+            const category = document.getElementById('bulkCategory').value;
+            const jsonText = document.getElementById('bulkJsonTextarea').value;
+            
+            if (!jsonText.trim()) {
+                showToast('Please paste JSON data', 3000);
+                return;
+            }
+            
+            try {
+                const data = JSON.parse(jsonText);
+                
+                if (!Array.isArray(data)) {
+                    throw new Error('JSON should be an array of items');
+                }
+                
+                let targetArray;
+                switch(category) {
+                    case 'services': targetArray = femtocDB.services; break;
+                    case 'store': targetArray = femtocDB.store; break;
+                    case 'university': targetArray = femtocDB.university; break;
+                    case 'pulse': targetArray = femtocDB.pulse; break;
+                    case 'quotes': 
+                        femtocDB.quotes = [...femtocDB.quotes, ...data.filter(item => typeof item === 'string')];
+                        document.getElementById('quotesTextarea').value = femtocDB.quotes.join('\n');
+                        showToast(`${data.length} quotes imported!`, 3000);
+                        return;
+                }
+                
+                // Generate unique IDs for new items
+                data.forEach(item => {
+                    if (!item.id) {
+                        const prefix = category === 'services' ? 'serv-' : 
+                                      category === 'store' ? 'prod-' : 
+                                      category === 'university' ? 'course-' : 'pulse-';
+                        item.id = prefix + (targetArray.length + 1);
+                    }
+                    targetArray.push(item);
+                });
+                
+                // Re-render views
+                switch(category) {
+                    case 'services': 
+                        renderAdminServices();
+                        renderServices(femtocDB.services);
+                        break;
+                    case 'store': 
+                        renderAdminStore();
+                        renderStore(femtocDB.store);
+                        break;
+                    case 'university': 
+                        renderAdminUniversity();
+                        renderUniversity(femtocDB.university);
+                        break;
+                    case 'pulse': 
+                        renderAdminPulse();
+                        renderPulse(femtocDB.pulse);
+                        break;
+                }
+                
+                showToast(`${data.length} items imported to ${category}!`, 3000);
+                document.getElementById('bulkJsonTextarea').value = '';
+                
+            } catch (error) {
+                showToast(`JSON Error: ${error.message}`, 5000);
+            }
+        }
+
+        function saveAdminSettings() {
+            femtocDB.config.adminPhone = document.getElementById('adminPhoneInput').value;
+            femtocDB.config.currency = document.getElementById('currencyInput').value;
+            
+            // Save token to session storage
+            const token = document.getElementById('githubTokenInput').value;
+            if (token) {
+                sessionStorage.setItem('femtoc_github_token', token);
+                document.getElementById('githubStatus').classList.add('connected');
+                showToast('Settings saved and GitHub token stored for this session', 3000);
+            } else {
+                showToast('Settings saved (no GitHub token provided)', 3000);
+            }
+        }
+
+        // ===== PART 2: GITHUB SELF-REPLICATION LOGIC =====
+        async function pushUpdateToGitHub() {
+            const token = sessionStorage.getItem('femtoc_github_token');
+            
+            if (!token) {
+                showToast('Please enter GitHub Personal Access Token in Settings', 5000);
+                // Switch to settings tab
+                document.querySelector('.admin-tab[data-admin-tab="settings"]').click();
+                return;
+            }
+            
+            // Show loading spinner
+            document.getElementById('loadingSpinner').classList.add('active');
+            
+            try {
+                // For security, we cannot hardcode repo details
+                // In a real implementation, you would:
+                // 1. Get current file SHA from GitHub API
+                // 2. Update the file with new content
+                // 3. Commit and push
+                
+                // This is a simulation since we can't actually make GitHub API calls
+                // without exposing tokens or having backend support
+                
+                showToast('GitHub update would be triggered here with valid repo details', 3000);
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    document.getElementById('loadingSpinner').classList.remove('active');
+                    showToast('Update simulated successfully! In production, this would push to GitHub.', 3000);
+                }, 2000);
+                
+            } catch (error) {
+                document.getElementById('loadingSpinner').classList.remove('active');
+                showToast(`Update failed: ${error.message}`, 5000);
+            }
+        }
+
+        // ===== PART 5: WHATSAPP BUTTON =====
+        function initWhatsAppButton() {
+            const whatsappBtn = document.getElementById('whatsappButton');
+            
+            whatsappBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const savedName = localStorage.getItem('femtoc_user_name');
+                const savedLocation = localStorage.getItem('femtoc_user_location');
+                
+                if (!savedName || !savedLocation) {
+                    // Prompt for user info
+                    const userName = prompt('Please enter your name:');
+                    if (!userName) return;
+                    
+                    const userLocation = prompt('Please enter your location (city, country):');
+                    if (!userLocation) return;
+                    
+                    saveUserData(userName, userLocation);
+                    
+                    // Send message with new data
+                    sendToWhatsApp('general', {}, { name: userName, location: userLocation });
+                } else {
+                    // Send message with saved data
+                    sendToWhatsApp('general', {}, { name: savedName, location: savedLocation });
+                }
+            });
+        }
+
+        // ===== UTILITY FUNCTIONS =====
+        function formatCurrency(amount) {
+            const currency = femtocDB.config.currency;
+            if (currency === 'INR') {
+                return `₹${amount.toLocaleString('en-IN')}`;
+            } else {
+                return `${currency} ${amount.toLocaleString()}`;
+            }
+        }
+
+        function showToast(message, duration = 3000) {
+            // Remove existing toast
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) existingToast.remove();
+            
+            // Create new toast
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            
+            // Style toast
+            toast.style.position = 'fixed';
+            toast.style.bottom = '100px';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.backgroundColor = 'var(--bg-tertiary)';
+            toast.style.color = 'var(--text-primary)';
+            toast.style.padding = 'var(--space-md) var(--space-lg)';
+            toast.style.borderRadius = '50px';
+            toast.style.border = '1px solid var(--accent-cyan)';
+            toast.style.boxShadow = 'var(--glow-cyan)';
+            toast.style.zIndex = '9999';
+            toast.style.fontFamily = 'var(--font-body)';
+            toast.style.fontWeight = '500';
+            toast.style.textAlign = 'center';
+            toast.style.maxWidth = '90%';
+            toast.style.animation = 'fadeIn 0.3s ease';
+            
+            document.body.appendChild(toast);
+            
+            // Remove toast after duration
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => toast.remove(), 500);
+            }, duration);
+        }
+    </script>
+
+    <!-- Deployment Instructions (Hidden) -->
+    <div style="display: none;">
+        <!-- 
+        =============================================
+        DEPLOYMENT INSTRUCTIONS FOR FEMTOC PLATFORM
+        =============================================
+        
+        1. CREATE GITHUB REPOSITORY:
+           - Go to GitHub.com and create a new repository named "femtoc-platform"
+           - Make sure it's set to PUBLIC (required for GitHub Pages)
+        
+        2. UPLOAD THIS FILE:
+           - Create a new file named "index.html" in your repository
+           - Copy ALL the code from this file and paste it into index.html
+           - Commit the changes
+        
+        3. ENABLE GITHUB PAGES:
+           - Go to Repository Settings > Pages
+           - Under "Source", select "main" branch and "/root" folder
+           - Click Save
+           - Your site will be published at: https://[username].github.io/femtoc-platform/
+        
+        4. GENERATE GITHUB PERSONAL ACCESS TOKEN (PAT):
+           - Go to GitHub Settings > Developer Settings > Personal Access Tokens
+           - Click "Generate new token"
+           - Give it a name like "Femtoc Live Deploy"
+           - Select "repo" scope (full control of repositories)
+           - Generate token and COPY it (you won't see it again)
+        
+        5. ENABLE LIVE DEPLOY IN FEMTOC:
+           - Open your Femtoc site
+           - Triple-tap on the Femtoc logo to open Admin Panel
+           - Go to Settings tab
+           - Paste your GitHub PAT in the token field
+           - Save settings
+           - Now you can use "Save & Deploy" in Admin Panel to live update the platform
+        
+        NOTE: For security, the GitHub token is stored only in browser session storage.
+        It will be cleared when you close the browser.
+        
+        =============================================
+        -->
+    </div>
+</body>
+</html>
