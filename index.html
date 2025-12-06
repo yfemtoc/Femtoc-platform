@@ -3575,6 +3575,911 @@ I want to join "${itemData.title}". Please send me enrollment details.
                 setTimeout(() => toast.remove(), 500);
             }, duration);
         }
+          // ===== FEMTOC AI ENHANCEMENT =====
+// Add this code at the end of your existing JavaScript
+
+// AI Configuration
+const femtocAI = {
+    name: "Femtoc AI",
+    currentLanguage: "english",
+    userName: null,
+    userLocation: null,
+    rememberedLanguage: false,
+    rememberedName: false,
+    isFirstVisit: true,
+    
+    // Multilingual responses
+    responses: {
+        english: {
+            welcome: "Welcome to Femtoc! I'm your AI assistant. What language do you prefer?",
+            askName: "What's your name?",
+            greeting: "Hello {name}! Nice to meet you! I'm {aiName}, your personal guide in Femtoc.",
+            homeGuide: "You're on the Home page. Here you can explore all sections of Femtoc - Services, Store, University, and Pulse videos.",
+            servicesGuide: "This is our Services section. We offer professional services like web development, digital marketing, and mobile apps.",
+            storeGuide: "Welcome to our Digital Store! Here you'll find tools, UI kits, and digital products to boost your productivity.",
+            universityGuide: "Welcome to Femtoc University! Learn cutting-edge skills with our courses on web development, AI, and UI/UX design.",
+            pulseGuide: "This is Pulse - our video feed. Watch trending tech videos, tap to mute/unmute, and interact with the controls.",
+            serviceDetail: "This service is about {title}. {description}",
+            productDetail: "This product is {title}. It costs {price}. {description}",
+            courseDetail: "This course is {title}. You'll learn skills like {skills}.",
+            videoDetail: "This video is about {title}. {description}",
+            hoverReaction: "I see you're interested in this! Need more details?",
+            touchReaction: "Oops! Let me move aside so you can see better!",
+            funnyMessages: [
+                "Did you know? The best time to learn a new skill was yesterday. The second best time is now!",
+                "I'm not just an AI, I'm your success companion!",
+                "Exploring is good! Let me know if you need guidance.",
+                "Tech tip: Always keep learning - that's the secret sauce!",
+                "I'm watching you learn... and I'm proud! 😊"
+            ]
+        },
+        hindi: {
+            welcome: "Femtoc में आपका स्वागत है! मैं आपकी AI सहायक हूँ। आप कौन सी भाषा पसंद करते हैं?",
+            askName: "आपका नाम क्या है?",
+            greeting: "नमस्ते {name}! आपसे मिलकर अच्छा लगा! मैं {aiName} हूँ, Femtoc में आपका निजी मार्गदर्शक।",
+            homeGuide: "आप होम पेज पर हैं। यहाँ आप Femtoc के सभी सेक्शन एक्सप्लोर कर सकते हैं - सर्विसेज, स्टोर, यूनिवर्सिटी और पल्स वीडियो।",
+            servicesGuide: "यह हमारा सर्विसेज सेक्शन है। हम वेब डेवलपमेंट, डिजिटल मार्केटिंग और मोबाइल ऐप जैसी प्रोफेशनल सर्विसेज ऑफर करते हैं।",
+            storeGuide: "हमारे डिजिटल स्टोर में स्वागत है! यहाँ आपको टूल्स, UI किट्स और प्रोडक्टिविटी बढ़ाने के लिए डिजिटल प्रोडक्ट्स मिलेंगे।",
+            universityGuide: "Femtoc यूनिवर्सिटी में स्वागत है! वेब डेवलपमेंट, AI और UI/UX डिजाइन पर हमारे कोर्सेज से कटिंग-एज स्किल्स सीखें।",
+            pulseGuide: "यह पल्स है - हमारा वीडियो फीड। ट्रेंडिंग टेक वीडियो देखें, म्यूट/अनम्यूट के लिए टैप करें, और कंट्रोल्स के साथ इंटरैक्ट करें।",
+            serviceDetail: "यह सर्विस {title} के बारे में है। {description}",
+            productDetail: "यह प्रोडक्ट {title} है। इसकी कीमत {price} है। {description}",
+            courseDetail: "यह कोर्स {title} है। आप {skills} जैसी स्किल्स सीखेंगे।",
+            videoDetail: "यह वीडियो {title} के बारे में है। {description}",
+            hoverReaction: "मैं देख रहा हूँ आप इसमें इंटरेस्टेड हैं! और डिटेल्स चाहिए?",
+            touchReaction: "उफ़! मुझे हट जाने दो ताकि आप बेहतर देख सकें!",
+            funnyMessages: [
+                "क्या आप जानते हैं? नई स्किल सीखने का सबसे अच्छा समय कल था। दूसरा सबसे अच्छा समय अभी है!",
+                "मैं सिर्फ एक AI नहीं हूँ, मैं आपकी सफलता का साथी हूँ!",
+                "एक्सप्लोर करना अच्छा है! अगर आपको मार्गदर्शन चाहिए तो बताएं।",
+                "टेक टिप: हमेशा सीखते रहें - यही सीक्रेट सॉस है!",
+                "मैं आपको सीखते हुए देख रहा हूँ... और मुझे गर्व है! 😊"
+            ]
+        },
+        spanish: {
+            welcome: "¡Bienvenido a Femtoc! Soy tu asistente de IA. ¿Qué idioma prefieres?",
+            askName: "¿Cómo te llamas?",
+            greeting: "¡Hola {name}! ¡Mucho gusto! Soy {aiName}, tu guía personal en Femtoc.",
+            homeGuide: "Estás en la página de inicio. Aquí puedes explorar todas las secciones de Femtoc: Servicios, Tienda, Universidad y videos Pulse.",
+            servicesGuide: "Esta es nuestra sección de Servicios. Ofrecemos servicios profesionales como desarrollo web, marketing digital y aplicaciones móviles.",
+            storeGuide: "¡Bienvenido a nuestra Tienda Digital! Aquí encontrarás herramientas, kits de UI y productos digitales para aumentar tu productividad.",
+            universityGuide: "¡Bienvenido a Femtoc University! Aprende habilidades de vanguardia con nuestros cursos sobre desarrollo web, IA y diseño UI/UX.",
+            pulseGuide: "Esto es Pulse: nuestro feed de videos. Mira videos tecnológicos de tendencia, toca para silenciar/reactivar e interactúa con los controles.",
+            serviceDetail: "Este servicio trata sobre {title}. {description}",
+            productDetail: "Este producto es {title}. Cuesta {price}. {description}",
+            courseDetail: "Este curso es {title}. Aprenderás habilidades como {skills}.",
+            videoDetail: "Este video trata sobre {title}. {description}",
+            hoverReaction: "¡Veo que estás interesado en esto! ¿Necesitas más detalles?",
+            touchReaction: "¡Ups! ¡Déjame apartarme para que puedas ver mejor!",
+            funnyMessages: [
+                "¿Sabías? El mejor momento para aprender una nueva habilidad fue ayer. ¡El segundo mejor momento es ahora!",
+                "¡No soy solo una IA, soy tu compañero de éxito!",
+                "¡Explorar es bueno! Avísame si necesitas orientación.",
+                "Consejo tecnológico: sigue aprendiendo siempre; ¡esa es la salsa secreta!",
+                "¡Te veo aprendiendo... y estoy orgulloso! 😊"
+            ]
+        }
+    },
+    
+    // Language options for user selection
+    languages: [
+        { code: "english", name: "English", flag: "🇺🇸" },
+        { code: "hindi", name: "हिंदी", flag: "🇮🇳" },
+        { code: "spanish", name: "Español", flag: "🇪🇸" }
+    ]
+};
+
+// Initialize enhanced Femtoc AI
+function initEnhancedFemtocAI() {
+    // Update AI name in the UI
+    document.querySelector('.ai-body').innerHTML += '<div class="ai-name-tag">Femtoc AI</div>';
+    
+    // Add CSS for name tag
+    const style = document.createElement('style');
+    style.textContent = `
+        .ai-name-tag {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 242, 234, 0.9);
+            color: #050505;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .language-selector {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 15px;
+            padding: var(--space-xl);
+            z-index: 3000;
+            width: 90%;
+            max-width: 400px;
+            display: none;
+            box-shadow: 0 0 30px rgba(0, 242, 234, 0.3);
+        }
+        
+        .language-selector.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .language-option {
+            display: flex;
+            align-items: center;
+            padding: var(--space-md);
+            margin: var(--space-sm) 0;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .language-option:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent-cyan);
+            transform: translateX(5px);
+        }
+        
+        .language-flag {
+            font-size: 1.5rem;
+            margin-right: var(--space-md);
+        }
+        
+        .language-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .name-input-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--accent-lime);
+            border-radius: 15px;
+            padding: var(--space-xl);
+            z-index: 3000;
+            width: 90%;
+            max-width: 400px;
+            display: none;
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.3);
+        }
+        
+        .name-input-modal.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .ai-thinking {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(191, 0, 255, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            white-space: nowrap;
+            display: none;
+        }
+        
+        .ai-thinking.active {
+            display: block;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+        
+        .ai-excited {
+            animation: wiggle 0.5s ease;
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+        
+        .ai-blink-fast {
+            animation: blink 0.3s 3;
+        }
+        
+        .ai-happy {
+            animation: float 2s ease-in-out infinite;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Check if user has visited before
+    checkFirstVisit();
+    
+    // Enhanced hover detection
+    initEnhancedHoverDetection();
+    
+    // Enhanced touch/mouse move detection
+    initEnhancedInteractionDetection();
+    
+    // Section change detection for guidance
+    initSectionGuidance();
+    
+    // Item hover guidance
+    initItemGuidance();
+}
+
+// Check if it's user's first visit
+function checkFirstVisit() {
+    const visitedBefore = localStorage.getItem('femtoc_visited_before');
+    const savedLanguage = localStorage.getItem('femtoc_user_language');
+    const savedName = localStorage.getItem('femtoc_user_name');
+    
+    if (!visitedBefore) {
+        // First visit - ask for language and name
+        setTimeout(() => {
+            showLanguageSelector();
+        }, 1500);
+        localStorage.setItem('femtoc_visited_before', 'true');
+        femtocAI.isFirstVisit = true;
+    } else if (savedLanguage && savedName) {
+        // Returning user - load preferences
+        femtocAI.currentLanguage = savedLanguage;
+        femtocAI.userName = savedName;
+        femtocAI.rememberedLanguage = true;
+        femtocAI.rememberedName = true;
+        
+        // Welcome back message
+        setTimeout(() => {
+            speakAI(getMessage('greeting').replace('{name}', savedName).replace('{aiName}', femtocAI.name));
+        }, 1000);
+    }
+}
+
+// Show language selector modal
+function showLanguageSelector() {
+    const modal = document.createElement('div');
+    modal.className = 'language-selector active';
+    modal.innerHTML = `
+        <h3 class="text-cyan text-center mb-3">👋 Welcome to Femtoc!</h3>
+        <p class="text-center mb-4">Choose your preferred language:</p>
+        <div id="languageOptions"></div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    const optionsContainer = document.getElementById('languageOptions');
+    femtocAI.languages.forEach(lang => {
+        const option = document.createElement('div');
+        option.className = 'language-option';
+        option.innerHTML = `
+            <span class="language-flag">${lang.flag}</span>
+            <span class="language-name">${lang.name}</span>
+        `;
+        option.addEventListener('click', () => selectLanguage(lang.code));
+        optionsContainer.appendChild(option);
+    });
+}
+
+// Select language and ask for name
+function selectLanguage(languageCode) {
+    femtocAI.currentLanguage = languageCode;
+    femtocAI.rememberedLanguage = true;
+    localStorage.setItem('femtoc_user_language', languageCode);
+    
+    // Remove language selector
+    document.querySelector('.language-selector')?.remove();
+    
+    // Ask for name
+    setTimeout(() => {
+        askForUserName();
+    }, 500);
+}
+
+// Ask for user's name
+function askForUserName() {
+    const modal = document.createElement('div');
+    modal.className = 'name-input-modal active';
+    modal.innerHTML = `
+        <h3 class="text-lime text-center mb-3">${getMessage('askName')}</h3>
+        <div class="form-group">
+            <input type="text" class="form-input" id="userNameInput" placeholder="Enter your name" autofocus>
+        </div>
+        <div class="d-flex" style="gap: 1rem; margin-top: 1.5rem;">
+            <button class="btn btn-primary" id="submitUserName" style="flex: 1;">
+                Continue <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    document.getElementById('submitUserName').addEventListener('click', () => {
+        const userName = document.getElementById('userNameInput').value.trim();
+        if (userName) {
+            saveUserName(userName);
+            document.querySelector('.name-input-modal')?.remove();
+        }
+    });
+    
+    // Enter key support
+    document.getElementById('userNameInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const userName = document.getElementById('userNameInput').value.trim();
+            if (userName) {
+                saveUserName(userName);
+                document.querySelector('.name-input-modal')?.remove();
+            }
+        }
+    });
+}
+
+// Save user name and show welcome
+function saveUserName(userName) {
+    femtocAI.userName = userName;
+    femtocAI.rememberedName = true;
+    localStorage.setItem('femtoc_user_name', userName);
+    
+    // Show welcome message
+    const greeting = getMessage('greeting')
+        .replace('{name}', userName)
+        .replace('{aiName}', femtocAI.name);
+    
+    speakAI(greeting);
+    
+    // Make AI excited
+    const aiBody = document.querySelector('.ai-body');
+    aiBody.classList.add('ai-excited');
+    setTimeout(() => aiBody.classList.remove('ai-excited'), 1000);
+}
+
+// Get message in current language
+function getMessage(key) {
+    return femtocAI.responses[femtocAI.currentLanguage][key] || 
+           femtocAI.responses.english[key] || 
+           "Message not available";
+}
+
+// AI speaks through speech bubble
+function speakAI(message, duration = 5000) {
+    const aiSpeech = document.getElementById('aiSpeech');
+    aiSpeech.textContent = message;
+    aiSpeech.classList.add('active');
+    
+    // Auto-hide after duration
+    setTimeout(() => {
+        if (aiSpeech.textContent === message) {
+            aiSpeech.classList.remove('active');
+        }
+    }, duration);
+    
+    // Show thinking animation
+    showThinkingAnimation();
+}
+
+// Show thinking animation
+function showThinkingAnimation() {
+    let thinking = document.querySelector('.ai-thinking');
+    if (!thinking) {
+        thinking = document.createElement('div');
+        thinking.className = 'ai-thinking';
+        thinking.innerHTML = '<i class="fas fa-brain"></i> Thinking...';
+        document.querySelector('.ai-agent').appendChild(thinking);
+    }
+    
+    thinking.classList.add('active');
+    setTimeout(() => thinking.classList.remove('active'), 1000);
+}
+
+// Enhanced hover detection for items
+function initEnhancedHoverDetection() {
+    // Add hover detection to cards
+    document.addEventListener('mouseover', (e) => {
+        const card = e.target.closest('.card');
+        if (card && !card.hasAttribute('data-ai-guided')) {
+            card.setAttribute('data-ai-guided', 'true');
+            
+            // Get card type and info
+            const cardType = getCardType(card);
+            const cardInfo = getCardInfo(card, cardType);
+            
+            if (cardInfo) {
+                // Show guide after short delay
+                setTimeout(() => {
+                    if (card.matches(':hover')) {
+                        guideAboutItem(cardType, cardInfo);
+                    }
+                }, 1000);
+            }
+        }
+    }, true);
+}
+
+// Get card type
+function getCardType(card) {
+    if (card.querySelector('.get-service-btn')) return 'service';
+    if (card.querySelector('.buy-product-btn')) return 'product';
+    if (card.querySelector('.enroll-course-btn')) return 'course';
+    if (card.closest('.video-card')) return 'video';
+    return 'general';
+}
+
+// Get card information
+function getCardInfo(card, type) {
+    switch(type) {
+        case 'service':
+            const serviceTitle = card.querySelector('.card-title')?.textContent;
+            const serviceDesc = card.querySelector('.card-description')?.textContent;
+            return { title: serviceTitle, description: serviceDesc };
+        
+        case 'product':
+            const productTitle = card.querySelector('.card-title')?.textContent;
+            const productDesc = card.querySelector('.card-description')?.textContent;
+            const productPrice = card.querySelector('.card-price')?.textContent;
+            return { title: productTitle, description: productDesc, price: productPrice };
+        
+        case 'course':
+            const courseTitle = card.querySelector('.card-title')?.textContent;
+            const courseDesc = card.querySelector('.card-description')?.textContent;
+            const courseSkills = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent).join(', ');
+            return { title: courseTitle, description: courseDesc, skills: courseSkills };
+        
+        case 'video':
+            const videoTitle = card.querySelector('h2')?.textContent;
+            const videoDesc = card.querySelector('p')?.textContent;
+            return { title: videoTitle, description: videoDesc };
+    }
+    return null;
+}
+
+// Guide about specific item
+function guideAboutItem(type, info) {
+    if (!femtocAI.rememberedName) return;
+    
+    let message = '';
+    const userName = femtocAI.userName ? ` ${femtocAI.userName}` : '';
+    
+    switch(type) {
+        case 'service':
+            message = getMessage('serviceDetail')
+                .replace('{title}', info.title)
+                .replace('{description}', info.description);
+            break;
+        
+        case 'product':
+            message = getMessage('productDetail')
+                .replace('{title}', info.title)
+                .replace('{price}', info.price)
+                .replace('{description}', info.description);
+            break;
+        
+        case 'course':
+            message = getMessage('courseDetail')
+                .replace('{title}', info.title)
+                .replace('{skills}', info.skills);
+            break;
+        
+        case 'video':
+            message = getMessage('videoDetail')
+                .replace('{title}', info.title)
+                .replace('{description}', info.description);
+            break;
+    }
+    
+    if (message) {
+        speakAI(`${userName}, ${message}`, 4000);
+        
+        // Make AI blink
+        const aiEyes = document.querySelectorAll('.ai-eye');
+        aiEyes.forEach(eye => {
+            eye.style.animation = 'blink 0.3s 3';
+            setTimeout(() => eye.style.animation = 'blink 4s infinite', 1000);
+        });
+    }
+}
+
+// Enhanced interaction detection
+function initEnhancedInteractionDetection() {
+    let lastInteractionTime = 0;
+    const interactionCooldown = 2000; // 2 seconds
+    
+    document.addEventListener('mousemove', (e) => {
+        const now = Date.now();
+        if (now - lastInteractionTime < interactionCooldown) return;
+        
+        const aiAgent = document.querySelector('.ai-agent');
+        const aiRect = aiAgent.getBoundingClientRect();
+        
+        // Calculate distance from cursor to AI
+        const distance = Math.sqrt(
+            Math.pow(e.clientX - (aiRect.left + aiRect.width/2), 2) +
+            Math.pow(e.clientY - (aiRect.top + aiRect.height/2), 2)
+        );
+        
+        // If cursor is very close (50px)
+        if (distance < 50) {
+            lastInteractionTime = now;
+            
+            // Show touch reaction
+            speakAI(getMessage('touchReaction'), 2000);
+            
+            // Move AI away with cool animation
+            moveAIWithStyle(e.clientX, e.clientY);
+            
+            // Play sound effect (optional)
+            playInteractionSound();
+        }
+    });
+    
+    // Touch interaction for mobile
+    document.addEventListener('touchstart', (e) => {
+        const touch = e.touches[0];
+        const aiAgent = document.querySelector('.ai-agent');
+        const aiRect = aiAgent.getBoundingClientRect();
+        
+        // Check if touch is near AI
+        const distance = Math.sqrt(
+            Math.pow(touch.clientX - (aiRect.left + aiRect.width/2), 2) +
+            Math.pow(touch.clientY - (aiRect.top + aiRect.height/2), 2)
+        );
+        
+        if (distance < 100) {
+            // Show touch reaction
+            speakAI(getMessage('touchReaction'), 2000);
+            
+            // Move AI away
+            moveAIWithStyle(touch.clientX, touch.clientY);
+            
+            // Vibrate if supported
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+    }, { passive: true });
+}
+
+// Move AI with cool animation
+function moveAIWithStyle(cursorX, cursorY) {
+    const aiAgent = document.querySelector('.ai-agent');
+    const aiRect = aiAgent.getBoundingClientRect();
+    
+    // Calculate new position (opposite direction with bounce)
+    const aiCenterX = aiRect.left + aiRect.width / 2;
+    const aiCenterY = aiRect.top + aiRect.height / 2;
+    
+    const deltaX = aiCenterX - cursorX;
+    const deltaY = aiCenterY - cursorY;
+    
+    // Normalize vector and add some randomness
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const moveDistance = 150 + Math.random() * 50; // Random distance
+    
+    let newX = aiRect.left + (deltaX / distance) * moveDistance;
+    let newY = aiRect.top + (deltaY / distance) * moveDistance;
+    
+    // Add bounce effect - overshoot and return
+    const finalX = newX;
+    const finalY = newY;
+    const overshootX = newX + (Math.random() * 40 - 20);
+    const overshootY = newY + (Math.random() * 40 - 20);
+    
+    // Keep within viewport bounds
+    const boundX = Math.max(10, Math.min(finalX, window.innerWidth - 80));
+    const boundY = Math.max(10, Math.min(finalY, window.innerHeight - 200));
+    
+    // Apply bounce animation
+    aiAgent.style.transition = 'all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
+    
+    // First move to overshoot position
+    aiAgent.style.left = `${overshootX}px`;
+    aiAgent.style.top = `${overshootY}px`;
+    
+    // Then bounce back to final position
+    setTimeout(() => {
+        aiAgent.style.left = `${boundX}px`;
+        aiAgent.style.top = `${boundY}px`;
+        
+        // Reset transition
+        setTimeout(() => {
+            aiAgent.style.transition = '';
+        }, 300);
+    }, 150);
+    
+    // Add spin effect
+    aiAgent.style.transform = 'rotate(180deg)';
+    setTimeout(() => {
+        aiAgent.style.transform = 'rotate(0deg)';
+    }, 300);
+}
+
+// Play interaction sound
+function playInteractionSound() {
+    // Create a simple beep sound using Web Audio API
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sine';
+        
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+        
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.1);
+    } catch (e) {
+        console.log("Audio not supported");
+    }
+}
+
+// Section guidance
+function initSectionGuidance() {
+    let currentSection = 'home';
+    
+    // Observe section changes
+    const observer = new MutationObserver(() => {
+        const activeSection = document.querySelector('section.active');
+        if (activeSection) {
+            const newSection = activeSection.id;
+            if (newSection !== currentSection) {
+                currentSection = newSection;
+                guideAboutSection(newSection);
+            }
+        }
+    });
+    
+    // Start observing
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class']
+    });
+}
+
+// Guide about current section
+function guideAboutSection(sectionId) {
+    if (!femtocAI.rememberedName) return;
+    
+    let message = '';
+    const userName = femtocAI.userName ? ` ${femtocAI.userName},` : '';
+    
+    switch(sectionId) {
+        case 'home':
+            message = getMessage('homeGuide');
+            break;
+        case 'services':
+            message = getMessage('servicesGuide');
+            break;
+        case 'store':
+            message = getMessage('storeGuide');
+            break;
+        case 'university':
+            message = getMessage('universityGuide');
+            break;
+        case 'pulse':
+            message = getMessage('pulseGuide');
+            break;
+    }
+    
+    if (message) {
+        // Random delay to make it feel natural
+        const delay = 500 + Math.random() * 1000;
+        
+        setTimeout(() => {
+            speakAI(`${userName} ${message}`, 4000);
+            
+            // Make AI happy when user explores
+            const aiBody = document.querySelector('.ai-body');
+            aiBody.classList.add('ai-happy');
+            setTimeout(() => aiBody.classList.remove('ai-happy'), 2000);
+        }, delay);
+    }
+}
+
+// Item hover guidance
+function initItemGuidance() {
+    // Add data attributes to all interactive items
+    document.querySelectorAll('.card, .video-card, .btn').forEach(item => {
+        item.setAttribute('data-ai-interactive', 'true');
+    });
+    
+    // Show random funny messages periodically
+    setInterval(() => {
+        if (Math.random() > 0.7 && femtocAI.rememberedName) { // 30% chance
+            const messages = femtocAI.responses[femtocAI.currentLanguage].funnyMessages;
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            const userName = femtocAI.userName ? ` ${femtocAI.userName},` : '';
+            
+            speakAI(`${userName} ${randomMessage}`, 3000);
+        }
+    }, 30000); // Every 30 seconds
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Wait a bit for original AI to initialize
+    setTimeout(() => {
+        initEnhancedFemtocAI();
+        
+        // Update AI behavior in existing code
+        overrideExistingAIFunctions();
+    }, 1000);
+});
+
+// Override existing AI functions to work with enhanced AI
+function overrideExistingAIFunctions() {
+    // Override the showAIQuote function if it exists
+    if (window.showAIQuote) {
+        const originalShowAIQuote = window.showAIQuote;
+        window.showAIQuote = function() {
+            if (femtocAI.rememberedName) {
+                const messages = femtocAI.responses[femtocAI.currentLanguage].funnyMessages;
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                const userName = femtocAI.userName ? ` ${femtocAI.userName},` : '';
+                speakAI(`${userName} ${randomMessage}`, 3000);
+            } else {
+                originalShowAIQuote();
+            }
+        };
+    }
+    
+    // Override updateAIQuote function
+    if (window.updateAIQuote) {
+        const originalUpdateAIQuote = window.updateAIQuote;
+        window.updateAIQuote = function(sectionId) {
+            // We'll handle section guidance separately
+            // So we don't call the original function
+        };
+    }
+}
+
+// Add AI thinking animation to existing AI
+function addThinkingAnimation() {
+    const thinking = document.createElement('div');
+    thinking.className = 'ai-thinking';
+    thinking.innerHTML = '<i class="fas fa-brain"></i> Thinking...';
+    document.querySelector('.ai-agent').appendChild(thinking);
+}
+
+// Personalize messages with user name
+function personalizeMessage(message) {
+    if (femtocAI.userName) {
+        // Randomly add user name to make it personal
+        const patterns = [
+            ` ${femtocAI.userName}, `,
+            ` ${femtocAI.userName}! `,
+            ` ${femtocAI.userName}. `,
+            ''
+        ];
+        const pattern = patterns[Math.floor(Math.random() * patterns.length)];
+        return pattern + message;
+    }
+    return message;
+}
+
+// ===== ADDITIONAL ENHANCEMENTS =====
+
+// Make AI respond to user actions more intelligently
+function enhanceAIResponsiveness() {
+    // Track user activity
+    let userActive = true;
+    let inactivityTimer;
+    
+    function resetInactivityTimer() {
+        clearTimeout(inactivityTimer);
+        userActive = true;
+        
+        inactivityTimer = setTimeout(() => {
+            userActive = false;
+            // Show inactive message
+            if (femtocAI.rememberedName && Math.random() > 0.5) {
+                const messages = [
+                    `${femtocAI.userName}, are you still there?`,
+                    `Hello? Anyone there?`,
+                    `Let me know if you need help!`,
+                    `I'm here when you need me!`
+                ];
+                speakAI(messages[Math.floor(Math.random() * messages.length)], 3000);
+            }
+        }, 30000); // 30 seconds
+    }
+    
+    // Reset timer on user interaction
+    ['mousemove', 'click', 'scroll', 'keypress'].forEach(event => {
+        document.addEventListener(event, resetInactivityTimer);
+    });
+    
+    resetInactivityTimer();
+}
+
+// Add emotional expressions to AI
+function addAIEmotions() {
+    const aiBody = document.querySelector('.ai-body');
+    const aiEyes = document.querySelectorAll('.ai-eye');
+    const aiMouth = document.querySelector('.ai-mouth');
+    
+    // Change AI color based on mood
+    function setAIMood(mood) {
+        const colors = {
+            happy: 'radial-gradient(circle at 30% 30%, #00f2ea, #bf00ff)',
+            excited: 'radial-gradient(circle at 30% 30%, #39ff14, #00f2ea)',
+            thinking: 'radial-gradient(circle at 30% 30%, #bf00ff, #050505)',
+            normal: 'radial-gradient(circle at 30% 30%, #00f2ea, #bf00ff)'
+        };
+        
+        aiBody.style.background = colors[mood] || colors.normal;
+    }
+    
+    // Make AI blink when thinking
+    function thinkBlink() {
+        aiEyes.forEach(eye => {
+            eye.style.animation = 'none';
+            setTimeout(() => {
+                eye.style.height = '2px';
+                setTimeout(() => {
+                    eye.style.height = '18px';
+                    eye.style.animation = 'blink 4s infinite';
+                }, 100);
+            }, 100);
+        });
+    }
+    
+    // Make AI smile
+    function smile() {
+        if (aiMouth) {
+            aiMouth.style.borderBottom = '3px solid white';
+            aiMouth.style.borderRadius = '0 0 10px 10px';
+            aiMouth.style.width = '25px';
+        }
+    }
+    
+    // Reset to normal
+    function normalFace() {
+        if (aiMouth) {
+            aiMouth.style.borderBottom = '3px solid white';
+            aiMouth.style.borderRadius = '0 0 10px 10px';
+            aiMouth.style.width = '20px';
+        }
+    }
+    
+    // Expose functions to use in other parts
+    window.AIEmotions = {
+        setMood: setAIMood,
+        think: thinkBlink,
+        smile: smile,
+        normal: normalFace
+    };
+}
+
+// Initialize all enhancements
+function initAllEnhancements() {
+    initEnhancedFemtocAI();
+    enhanceAIResponsiveness();
+    addAIEmotions();
+}
+
+// Call when page loads
+window.addEventListener('load', initAllEnhancements);
     </script>
 
     <!-- Deployment Instructions (Hidden) -->
