@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -486,8 +488,106 @@
             
             window.open(`https://wa.me/919838038571?text=${msg}`, '_blank');
         }
+           
+                  // --- IDENTITY SYSTEM ---
+
+        // 1. Page Load Hone par Check Karo
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedData = localStorage.getItem('femtocUser');
+            
+            if (!savedData) {
+                // Agar data nahi hai, to Modal dikhao
+                const modal = document.getElementById('welcomeModal');
+                modal.classList.remove('hidden');
+                // Animation fade in hack
+                setTimeout(() => { modal.style.opacity = '1'; }, 50);
+            } else {
+                // Agar data hai, to global variable update kar lo
+                userDetails = JSON.parse(savedData);
+                console.log("User Identified:", userDetails.name);
+            }
+        });
+
+        // 2. Button Click karne par Save Karo
+        function saveUserIdentity() {
+            const name = document.getElementById('userNameInput').value.trim();
+            const city = document.getElementById('userCityInput').value.trim();
+            const modal = document.getElementById('welcomeModal');
+
+            if (!name || !city) {
+                alert("Please enter your Name and City to access the platform.");
+                return;
+            }
+
+            // Data Object
+            const userData = {
+                name: name,
+                city: city,
+                joined: new Date().toLocaleDateString()
+            };
+
+            // Save to Memory
+            localStorage.setItem('femtocUser', JSON.stringify(userData));
+            
+            // Update Global Variable Immediately
+            userDetails = userData;
+
+            // Hide Modal with Animation
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 1000);
+            
+            // Optional: Welcome Alert
+            // alert(`Welcome to Femtoc, ${name}.`);
+        }
 
     </script>
+          <div id="welcomeModal" class="fixed inset-0 z-[200] flex items-center justify-center bg-black transition-opacity duration-1000 hidden">
+        
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-40"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
+        
+        <div class="relative w-full max-w-sm mx-4 p-8 rounded-[30px] border border-yellow-500/30 bg-[#0a0a0a]/90 backdrop-blur-xl shadow-[0_0_100px_rgba(255,215,0,0.15)] flex flex-col items-center text-center overflow-hidden">
+            
+            <div class="mb-8 relative group">
+                <div class="absolute inset-0 bg-yellow-500 blur-[40px] opacity-20 animate-pulse"></div>
+                <div class="w-24 h-24 relative z-10 animate-[bounce_3s_infinite]">
+                    <svg viewBox="0 0 512 512" class="w-full h-full drop-shadow-[0_10px_20px_rgba(255,215,0,0.5)]">
+                        <path fill="url(#goldGrad)" d="M256,0L60.6,162.6l195.4,349.4l195.4-349.4L256,0z M256,120L117.8,162.6L256,47.4L394.2,162.6L256,120z"/>
+                        <defs>
+                            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#FDB931;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+
+            <h2 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-[#fff] mb-2">IDENTITY CHECK</h2>
+            <p class="text-xs text-gray-400 mb-8 uppercase tracking-[0.2em]">Secure Access Required</p>
+
+            <div class="w-full space-y-4 relative z-20">
+                <div class="relative group">
+                    <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-yellow-500/50 group-focus-within:text-yellow-400 transition"></i>
+                    <input type="text" id="userNameInput" placeholder="Enter Your Full Name" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-yellow-500 transition-all placeholder-gray-600 font-medium">
+                </div>
+
+                <div class="relative group">
+                    <i class="fas fa-map-marker-alt absolute left-4 top-1/2 -translate-y-1/2 text-yellow-500/50 group-focus-within:text-yellow-400 transition"></i>
+                    <input type="text" id="userCityInput" placeholder="Enter Your City" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-yellow-500 transition-all placeholder-gray-600 font-medium">
+                </div>
+            </div>
+
+            <button onclick="saveUserIdentity()" class="mt-8 w-full py-4 rounded-xl bg-gradient-to-r from-[#FFD700] via-[#FDB931] to-[#b8860b] text-black font-bold text-lg tracking-wider shadow-[0_0_30px_rgba(255,215,0,0.3)] hover:shadow-[0_0_50px_rgba(255,215,0,0.5)] transform active:scale-95 transition-all duration-300 relative overflow-hidden group">
+                <span class="absolute inset-0 bg-white/30 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></span>
+                EXPLORE FEMTOC
+            </button>
+
+        </div>
+    </div>
+
 </body>
 </html>
-
